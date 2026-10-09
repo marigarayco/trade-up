@@ -1,906 +1,470 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Trade Up · Wireframe baja fidelidad</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&family=Ubuntu+Mono:wght@400;700&display=swap" rel="stylesheet">
-<style>
-  /* ============ TOKENS (solo escala de grises) ============ */
-  :root{
-    --g-0:#ffffff; --g-1:#f6f6f6; --g-2:#ececec; --g-3:#dcdcdc; --g-4:#bdbdbd;
-    --g-5:#8c8c8c; --g-6:#5e5e5e; --g-7:#333333; --g-8:#141414;
-    --radius:6px;
-    /* Forma del logo: rectángulo con solo la esquina inferior derecha redondeada */
-    --shape-s:0 0 12px 0; --shape-m:0 0 24px 0; --shape-l:0 0 clamp(36px,6vw,72px) 0;
-    --gap:clamp(16px,2.5vw,28px);
-    --section:clamp(56px,8vw,104px);
-    --header-h:68px;
-    --mono:'Ubuntu Mono',ui-monospace,Consolas,monospace;
-    --font:'Ubuntu',system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  }
-  *,*::before,*::after{box-sizing:border-box;}
-  html{scroll-behavior:smooth; scroll-padding-top:calc(var(--header-h) + 16px);}
-  @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto;} *{transition:none!important; animation:none!important;} }
-  body{margin:0; font-family:var(--font); color:var(--g-8); background:var(--g-0); line-height:1.6; -webkit-font-smoothing:antialiased;}
-  h1,h2,h3,h4{line-height:1.15; letter-spacing:-.02em; margin:0;}
-  p{margin:0;}
-  a{color:inherit;}
-  ul{margin:0; padding:0; list-style:none;}
-  img,svg{display:block; max-width:100%;}
-  :focus-visible{outline:2px solid var(--g-8); outline-offset:3px; border-radius:3px;}
-
-  .wrap{width:min(1160px,100% - 40px); margin-inline:auto;}
-  .sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;}
-  .skip{position:absolute; left:12px; top:-60px; background:var(--g-8); color:var(--g-0); padding:10px 16px; border-radius:var(--radius); z-index:200; text-decoration:none;}
-  .skip:focus{top:12px;}
-
-  /* ============ ATOMS ============ */
-  .h1{font-size:clamp(36px,5.6vw,64px); font-weight:700;}
-  .h2{font-size:clamp(26px,3.4vw,40px); font-weight:700;}
-  .h3{font-size:18px; font-weight:650;}
-  .lede{font-size:clamp(16px,1.6vw,19px); color:var(--g-6); max-width:56ch;}
-  .muted{color:var(--g-6);}
-  .small{font-size:13px;}
-
-  .btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:44px; padding:0 22px; border:1.5px solid var(--g-8); border-radius:var(--shape-s); background:var(--g-8); color:var(--g-0); font:600 14px/1 var(--font); text-decoration:none; cursor:pointer; transition:background .2s, color .2s;}
-  .btn:hover{background:var(--g-7);}
-  .btn.ghost{background:transparent; color:var(--g-8);}
-  .btn.ghost:hover{background:var(--g-2);}
-  .btn.sm{border-bottom-right-radius:9px; min-height:38px; padding:0 16px; font-size:13px;}
-  .link-arrow{font-weight:600; font-size:14px; text-decoration:none; border-bottom:1.5px solid var(--g-8); padding-bottom:2px;}
-  .link-arrow:hover{border-color:var(--g-4);}
-
-  /* Placeholder de imagen: caja gris con cruz */
-  .ph{position:relative; display:grid; place-items:center; background:var(--g-2); border:1px solid var(--g-3); border-radius:var(--radius); overflow:hidden; color:var(--g-5); font-size:12px; text-align:center;
-      background-image:linear-gradient(to top right,transparent calc(50% - .75px),var(--g-3) calc(50% - .75px),var(--g-3) calc(50% + .75px),transparent calc(50% + .75px)),
-                       linear-gradient(to bottom right,transparent calc(50% - .75px),var(--g-3) calc(50% - .75px),var(--g-3) calc(50% + .75px),transparent calc(50% + .75px));}
-  .ph > span{position:relative; background:var(--g-2); padding:3px 10px; border-radius:999px; border:1px solid var(--g-3);}
-  .r-43{aspect-ratio:4/3;} .r-169{aspect-ratio:16/9;} .r-1610{aspect-ratio:16/10;} .r-11{aspect-ratio:1;}
-  .ph-icon{width:40px; height:40px; border-radius:var(--radius); border-width:1.5px; background-image:none; display:block;}
-  .ph-play{position:absolute; width:60px; height:60px; border-radius:50%; background:var(--g-8); display:grid; place-items:center;}
-  .ph-play::after{content:""; border-left:16px solid var(--g-0); border-top:10px solid transparent; border-bottom:10px solid transparent; margin-left:4px;}
-  .pending{border:1.5px dashed var(--g-4); border-radius:var(--radius); padding:10px 14px; font-size:13px; color:var(--g-6); background:var(--g-1);}
-
-  section.sec{padding-block:var(--section);}
-  section.sec.alt{background:var(--g-1); border-block:1px solid var(--g-3);}
-  .sec-head{display:flex; justify-content:space-between; align-items:flex-end; gap:24px; flex-wrap:wrap; margin-bottom:clamp(28px,4vw,48px);}
-  .sec-head > div{max-width:620px;}
-  .sec-head .h2{margin-bottom:12px;}
-  .split{display:grid; grid-template-columns:1fr 1fr; gap:clamp(28px,5vw,72px); align-items:center;}
-  @media (max-width:820px){ .split{grid-template-columns:1fr;} }
-
-  /* ============ HEADER / NAV ============ */
-  .site-header{position:sticky; top:0; z-index:100; background:var(--g-0); border-bottom:1px solid var(--g-3);}
-  .bar{display:flex; align-items:center; gap:24px; height:var(--header-h);}
-  .logo{display:flex; align-items:center; gap:10px; text-decoration:none; font-weight:700; font-size:18px; letter-spacing:-.02em; margin-right:auto;}
-  /* Logo real; filtro gris para mantener el wireframe en escala de grises (quitar para ver el color de marca) */
-  .logo-img{height:34px; width:auto; filter:grayscale(1);}
-  .nav-main{display:flex; align-items:center; gap:4px;}
-  .nav-main a, .nav-main > li > button{display:inline-flex; align-items:center; gap:6px; min-height:40px; padding:0 14px; border:0; background:none; border-radius:var(--radius); font:500 14px/1 var(--font); color:var(--g-7); text-decoration:none; cursor:pointer;}
-  .nav-main a:hover, .nav-main > li > button:hover{background:var(--g-2); color:var(--g-8);}
-  .nav-main [aria-current="page"], .nav-main [aria-current="true"]{color:var(--g-8); font-weight:650; box-shadow:inset 0 -2px 0 var(--g-8); border-radius:0;}
-  .nav-main li{position:relative;}
-  .header-cta{display:flex; align-items:center; gap:10px;}
-  .lang{display:flex; border:1.5px solid var(--g-4); border-radius:0; overflow:hidden;}
-  .lang button{min-width:40px; min-height:36px; border:0; background:transparent; font:600 12px/1 var(--font); letter-spacing:.06em; color:var(--g-6); cursor:pointer;}
-  .lang button + button{border-left:1.5px solid var(--g-4);}
-  .lang button:hover{color:var(--g-8);}
-  .lang button[aria-pressed="true"]{background:var(--g-8); color:var(--g-0);}
-  .menu-btn{display:none; width:44px; height:44px; border:1.5px solid var(--g-8); border-radius:var(--radius); background:none; cursor:pointer; place-items:center;}
-  .menu-btn svg{width:20px; height:20px;}
-  @media (max-width:900px){
-    .nav-main, .header-cta .btn{display:none;}
-    .menu-btn{display:grid;}
-  }
-
-  /* Menú móvil (dialog modal: foco atrapado + Esc nativo) */
-  dialog.drawer{margin:0 0 0 auto; width:min(380px,100%); height:100dvh; max-height:none; border:0; border-left:1px solid var(--g-4); padding:0; background:var(--g-0); color:var(--g-8);}
-  dialog.drawer::backdrop{background:rgba(20,20,20,.5);}
-  .drawer-head{display:flex; align-items:center; justify-content:space-between; height:var(--header-h); padding-inline:20px; border-bottom:1px solid var(--g-3);}
-  .drawer nav{padding:12px 20px 24px; display:flex; flex-direction:column; height:calc(100dvh - var(--header-h)); overflow:auto;}
-  .drawer nav a{display:flex; justify-content:space-between; align-items:center; padding:16px 0; border-bottom:1px solid var(--g-3); font-size:18px; font-weight:600; text-decoration:none;}
-  .drawer nav a.sub{font-size:15px; font-weight:400; color:var(--g-6); padding:11px 0 11px 16px;}
-  .drawer nav a[aria-current]{text-decoration:underline; text-underline-offset:6px;}
-  .drawer .btn{margin-top:24px;}
-
-  /* Breadcrumb */
-  .crumbs{border-bottom:1px solid var(--g-3); background:var(--g-1);}
-  .crumbs ol{display:flex; flex-wrap:wrap; gap:4px 8px; list-style:none; margin:0; padding:12px 0; font-size:13px; color:var(--g-6);}
-  .crumbs li{white-space:nowrap;} .crumbs li:last-child{white-space:normal;}
-  .crumbs li+li::before{content:"/"; margin-right:8px; color:var(--g-4);}
-  .crumbs a{text-decoration:none;} .crumbs a:hover{text-decoration:underline;}
-  .crumbs [aria-current]{color:var(--g-8); font-weight:600;}
-
-  /* ============ PAGES ============ */
-  /* Imágenes protagonistas con la forma del logo */
-  .ph.shape{border-radius:var(--shape-l);}
-
-  .page{display:none;} .page.active{display:block;}
-
-  /* Hero */
-  /* Hero: imagen arriba, caja blanca (mensaje) + caja oscura con forma del logo (dato + CTA) */
-  .hero{padding-block:clamp(16px,2.5vw,32px) clamp(32px,5vw,64px); margin-bottom:clamp(32px,5vw,56px);}
-  .hero-inner{display:grid; gap:clamp(12px,1.6vw,20px);}
-  .hero-img{height:clamp(220px,38vh,420px); border-radius:var(--radius); background-color:var(--g-1);}
-  .hero-img > span{background:var(--g-1);}
-  .hero-row{display:grid; grid-template-columns:1.55fr 1fr; gap:clamp(12px,1.6vw,20px);}
-  .hero-msg{background:var(--g-0); border:0; border-left:6px solid var(--g-8); border-radius:0; padding:clamp(24px,4vw,48px); display:flex; flex-direction:column; justify-content:center; gap:20px;}
-  .hero-msg h1{font-size:clamp(34px,5vw,64px); line-height:1.02; text-transform:none;}
-  .hero-msg .lede{max-width:52ch;}
-  .hero-card{background:var(--g-7); color:var(--g-0); border-radius:0 0 clamp(36px,6vw,72px) 0; padding:clamp(24px,3vw,40px); display:flex; flex-direction:column; justify-content:space-between; gap:28px; min-height:0; position:relative; text-decoration:none; transition:background .2s;}
-  .hero-card:hover{background:var(--g-8);}
-  .hero-card-cta{margin-top:auto; display:flex; justify-content:space-between; align-items:center; gap:16px; font-size:clamp(28px,3.4vw,44px); font-weight:700; letter-spacing:-.02em; line-height:1;}
-  .hero-card-cta svg{flex-shrink:0; transition:transform .25s;}
-  .hero-card:hover .hero-card-cta svg{transform:translateX(6px);}
-  @media (max-width:820px){ .hero-row{grid-template-columns:1fr;} }
-
-  /* Stats */
-  /* Stats: bloques en grises que se superponen, cada uno con la esquina del logo */
-  .stats{--r:clamp(40px,6vw,80px); display:flex; isolation:isolate;}
-  .stat{flex:1; position:relative; border-radius:0 0 var(--r) 0; padding:clamp(24px,3vw,40px) calc(var(--r) + 16px) clamp(24px,3vw,40px) clamp(24px,3vw,40px); margin-right:calc(var(--r) * -1); display:flex; flex-direction:column; justify-content:space-between; align-items:flex-start; gap:clamp(28px,5vw,64px); min-height:clamp(240px,24vw,320px);}
-  .stat:last-child{margin-right:0;}
-  .stat:last-child{padding-right:clamp(24px,3vw,40px);}
-  .stat:not(:first-child){padding-left:calc(var(--r) + clamp(20px,2.4vw,32px));}
-  .stat:nth-child(1){background:var(--g-3); color:var(--g-8); z-index:3;}
-  .stat:nth-child(2){background:var(--g-6); color:var(--g-0); z-index:2;}
-  .stat:nth-child(3){background:var(--g-8); color:var(--g-0); z-index:1;}
-  .stat b{font-family:var(--mono); font-size:clamp(52px,6.2vw,80px); font-weight:400; letter-spacing:-.04em; line-height:.8;}
-  .stat b sup{font-size:.28em; letter-spacing:0; vertical-align:top; position:relative; top:.1em; margin-left:4px; font-weight:500;}
-  .stat span{font-size:clamp(14px,1.25vw,16px); line-height:1.45; max-width:30ch; padding-top:16px; border-top:1px solid currentColor; opacity:.9; width:100%;}
-  @media (max-width:820px){
-    .stats{flex-direction:column;}
-    .stat{margin-right:0; margin-bottom:calc(var(--r) * -1); padding:24px 24px calc(var(--r) + 20px); min-height:0; flex-direction:row; align-items:flex-end; justify-content:flex-start; gap:16px;}
-    .stat span{border-top:0; padding:0 0 4px; width:auto; max-width:20ch; font-size:14px;}
-    .stat:last-child{margin-bottom:0; padding-bottom:28px;}
-    .stat:not(:first-child){padding:calc(var(--r) + 20px) 24px 24px;}
-    .stat:not(:last-child){padding-bottom:calc(var(--r) + 20px);}
-  }
-
-  /* Logos */
-  .logos{display:grid; grid-template-columns:repeat(6,1fr); gap:12px;}
-  .logos div{height:64px; border:1px solid var(--g-3); border-radius:var(--radius); display:grid; place-items:center; font-size:11px; letter-spacing:.1em; color:var(--g-5); background:var(--g-0);}
-  @media (max-width:820px){ .logos{grid-template-columns:repeat(3,1fr);} }
-
-  /* Servicios */
-  .filters{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:28px;}
-  .chip{min-height:40px; padding:0 18px; border:1.5px solid var(--g-4); background:var(--g-0); border-radius:999px; font:600 13.5px/1 var(--font); cursor:pointer; color:var(--g-7);}
-  .chip:hover{border-color:var(--g-8);}
-  .chip[aria-pressed="true"]{background:var(--g-8); border-color:var(--g-8); color:var(--g-0);}
-
-  /* Servicios: paneles full-width que se apilan al scrollear (sticky) */
-  .svc-section{padding-block:var(--section);}
-  .svc-head{display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:12px;}
-  .svc-head h2,.svc-head span{font-size:clamp(26px,3.4vw,40px); line-height:1.15; letter-spacing:-.02em; font-weight:700;}
-  .svc-stack{--step:18px; --row:46px; --pad:clamp(22px,2.6vw,36px);}
-  .svc-panel{position:sticky; top:calc(var(--header-h) + 20px + var(--i,0) * var(--step)); min-height:clamp(330px,45vh,420px); border:1px solid var(--g-3); border-radius:clamp(16px,2vw,24px); margin-bottom:clamp(24px,6vh,48px);
-    background:color-mix(in srgb, var(--g-3) calc(min(var(--k,0),4) * 22%), var(--g-1));
-    transform-origin:50% 0; transform:scale(calc(1 - min(var(--k,0),5) * .045)); transition:transform .35s ease, background-color .35s ease;}
-  .svc-inner{min-height:inherit; padding:var(--pad) clamp(20px,3vw,40px) clamp(24px,3vw,36px); display:grid; grid-template-columns:clamp(56px,10vw,140px) 1fr minmax(240px,32%); grid-template-rows:var(--row) 1fr; column-gap:clamp(16px,3vw,48px);}
-  .svc-panel .n,.svc-panel h3{display:flex; align-items:center; height:var(--row); line-height:1;}
-  .svc-panel .n{font-family:var(--mono); font-size:22px; color:var(--g-5);}
-  .svc-panel h3{font-size:clamp(20px,2.2vw,26px); font-weight:650; letter-spacing:-.02em;}
-  .svc-panel .phase{display:flex; align-items:center; justify-content:flex-end; height:var(--row); font-size:13px; color:var(--g-6);}
-  .svc-panel .desc{grid-column:2; padding-top:clamp(12px,1.6vw,20px); display:flex; flex-direction:column; align-items:flex-start; gap:20px;}
-  .svc-panel .desc p{color:var(--g-6); max-width:50ch; font-size:clamp(15px,1.4vw,18px);}
-  .svc-panel .ph{grid-column:3; grid-row:2; margin-top:clamp(8px,1vw,14px); align-self:stretch; min-height:200px; background-color:var(--g-0);}
-  .svc-panel .ph > span{background:var(--g-0);}
-  @media (max-width:820px){
-    .svc-stack{--step:12px; --row:40px; --pad:18px;}
-    .svc-panel{min-height:300px;}
-    .svc-inner{grid-template-columns:36px 1fr auto; grid-template-rows:var(--row) auto auto; column-gap:12px;}
-    .svc-panel .desc{grid-column:1/-1; padding-top:8px; gap:14px;}
-    .svc-panel .ph{grid-column:1/-1; grid-row:3; height:110px; min-height:0; margin-top:12px;}
-  }
-  .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:var(--gap);}
-  .grid-2{display:grid; grid-template-columns:repeat(2,1fr); gap:var(--gap);}
-  @media (max-width:900px){ .grid-3{grid-template-columns:repeat(2,1fr);} }
-  @media (max-width:600px){ .grid-3,.grid-2{grid-template-columns:1fr;} }
-  .card{background:var(--g-0); border:1px solid var(--g-3); border-radius:var(--radius); padding:24px; display:flex; flex-direction:column; gap:12px; transition:border-color .2s;}
-  a.card{text-decoration:none;} .card:hover{border-color:var(--g-8);}
-  .card[hidden]{display:none;}
-  .card .tag{align-self:flex-start; font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--g-6); border:1px solid var(--g-3); border-radius:999px; padding:3px 10px;}
-  .card p{font-size:14px; color:var(--g-6);}
-
-  /* Certificación */
-  .band{display:grid; grid-template-columns:2fr 1fr; align-items:stretch; border:1px solid var(--g-3); border-radius:var(--radius); overflow:hidden; background:var(--g-0);}
-  .band .ph{border:0; border-radius:0; min-height:clamp(220px,22vw,280px); height:100%; aspect-ratio:auto;}
-  .band-body{padding:clamp(20px,2.6vw,36px); display:flex; flex-direction:column; justify-content:center; gap:14px;}
-  @media (max-width:820px){ .band{grid-template-columns:1fr;} .band .ph{min-height:240px;} }
-
-  /* ZFLP teaser */
-  .teaser{display:grid; grid-template-columns:1fr 1fr; border:1px solid var(--g-3); border-radius:var(--shape-l); overflow:hidden; background:var(--g-0);}
-  .teaser .ph{border:0; border-radius:0; min-height:280px; height:100%; order:2;}
-  .teaser-body{padding:clamp(24px,4vw,48px); display:flex; flex-direction:column; justify-content:center; gap:18px; align-items:flex-start;}
-  @media (max-width:820px){ .teaser{grid-template-columns:1fr;} .teaser .ph{order:0;} }
-
-  /* FAQ */
-  .faq-title{position:sticky; top:calc(var(--header-h) + 32px);}
-  @media (max-width:820px){ .faq-title{position:static;} }
-  .faq details:first-child{border-top:1px solid var(--g-3);}
-  .faq details{border-bottom:1px solid var(--g-3);}
-  .faq summary{display:flex; justify-content:space-between; align-items:center; gap:16px; padding:18px 0; font-weight:600; font-size:16px; cursor:pointer; list-style:none;}
-  .faq summary::-webkit-details-marker{display:none;}
-  .faq summary::after{content:"+"; font-size:22px; font-weight:400; line-height:1;}
-  .faq details[open] summary::after{content:"–";}
-  .faq details > div{padding:0 0 20px; max-width:62ch;}
-
-  /* Form */
-  form.contact{display:grid; gap:14px;}
-  label{display:grid; gap:6px; font-size:13px; font-weight:600;}
-  input,select,textarea{font:400 15px/1.4 var(--font); padding:12px 14px; border:1.5px solid var(--g-4); border-radius:var(--radius); background:var(--g-0); color:var(--g-8); width:100%;}
-  input:hover,select:hover,textarea:hover{border-color:var(--g-6);}
-  textarea{min-height:120px; resize:vertical;}
-  .contact-list{display:grid; gap:14px; margin-block:28px;}
-  .contact-list div{display:flex; gap:14px; align-items:flex-start;}
-  .contact-list .ph-icon{flex-shrink:0; width:32px; height:32px;}
-  .contact-list dt{font-size:12px; text-transform:uppercase; letter-spacing:.08em; color:var(--g-6);}
-
-  /* CTA final */
-  .cta-band{background:var(--g-8); color:var(--g-0); border-radius:var(--shape-l); padding:clamp(32px,6vw,72px); display:flex; justify-content:space-between; align-items:center; gap:28px; flex-wrap:wrap;}
-  .cta-band .btn{background:var(--g-0); color:var(--g-8); border-color:var(--g-0);}
-  .cta-band .btn:hover{background:var(--g-2);}
-  .cta-band .btn.ghost{background:transparent; color:var(--g-0);}
-  .cta-band .btn.ghost:hover{background:var(--g-7);}
-  .cta-band p{color:var(--g-4);}
-
-  /* Page header (internas) */
-  .page-head{padding-block:clamp(40px,6vw,80px) clamp(32px,4vw,56px); border-bottom:1px solid var(--g-3);}
-  .page-head .h1{font-size:clamp(34px,4.6vw,54px); margin-bottom:16px;}
-
-  /* In-page index (internas) */
-  .layout-aside{display:grid; grid-template-columns:220px 1fr; gap:clamp(32px,5vw,72px); align-items:start;}
-  .aside{position:sticky; top:calc(var(--header-h) + 24px);}
-  .aside p{font-size:12px; text-transform:uppercase; letter-spacing:.1em; color:var(--g-6); margin-bottom:10px; font-weight:600;}
-  .aside a{display:block; padding:8px 0 8px 14px; border-left:2px solid var(--g-3); text-decoration:none; font-size:14px; color:var(--g-6);}
-  .aside a:hover{color:var(--g-8);}
-  .aside a[aria-current="true"]{border-color:var(--g-8); color:var(--g-8); font-weight:600;}
-  @media (max-width:900px){ .layout-aside{grid-template-columns:1fr;} .aside{display:none;} }
-  .block + .block{margin-top:clamp(48px,7vw,88px);}
-
-  /* Timeline vertical (narrada al scroll) */
-  .vtl{position:relative; max-width:720px; padding-left:44px;}
-  .vtl::before,.vtl-fill{content:""; position:absolute; left:6px; top:8px; bottom:8px; width:2px; background:var(--g-3);}
-  .vtl-fill{background:var(--g-8); bottom:auto; height:0; transition:height .15s linear;}
-  .tl{position:relative; padding-bottom:clamp(56px,10vh,110px); opacity:0; transform:translateY(24px); transition:opacity .6s ease, transform .6s ease;}
-  .tl:last-child{padding-bottom:0;}
-  .tl.in{opacity:1; transform:none;}
-  .tl::before{content:""; position:absolute; left:-44px; top:6px; width:14px; height:14px; border-radius:50%; background:var(--g-0); border:2px solid var(--g-4); transition:background .4s, border-color .4s;}
-  .tl.in::before{background:var(--g-8); border-color:var(--g-8);}
-  .tl b{font-size:clamp(28px,4vw,40px); letter-spacing:-.03em; display:block; margin-bottom:10px; line-height:1.1;}
-  .tl p{margin:0 0 10px; max-width:58ch;}
-  .tl-kicker{font-size:12px; text-transform:uppercase; letter-spacing:.1em; color:var(--g-6); font-weight:600; margin:0 0 14px!important;}
-  @media (prefers-reduced-motion:reduce){ .tl{opacity:1; transform:none;} }
-
-  /* Documentación */
-  .checks{display:grid; gap:0; margin-top:18px;}
-  .checks li{display:flex; align-items:center; gap:14px; padding:14px 0; border-top:1px solid var(--g-3); font-size:15px;}
-  .checks li::before{content:""; width:20px; height:20px; border:1.5px solid var(--g-8); border-radius:4px; flex-shrink:0;}
-  @media (min-width:700px){ .checks.cols{grid-template-columns:repeat(2,1fr); column-gap:clamp(32px,5vw,72px);} .checks.cols li:nth-child(2){border-top:1px solid var(--g-3);} }
-  .steps{display:grid; gap:0;}
-  .step{display:grid; grid-template-columns:clamp(88px,10vw,128px) 1fr; column-gap:clamp(16px,3vw,40px); padding-bottom:clamp(48px,7vw,88px);}
-  .step:last-child{padding-bottom:0;}
-  .step-n{position:sticky; top:calc(var(--header-h) + 24px); align-self:start; font-family:var(--mono); font-size:clamp(52px,6.2vw,80px); font-weight:400; letter-spacing:-.04em; line-height:.8;}
-  .step-body{min-width:0;}
-  .checks.tick li::before{background:var(--g-8) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/14px no-repeat;}
-  .checks.num{counter-reset:n;}
-  .checks.num li{counter-increment:n;}
-  .checks.num li{align-items:flex-start;}
-  .checks.num li::before{content:counter(n); width:24px; height:auto; border:0; border-radius:0; font-weight:600; font-size:15px; line-height:inherit; color:var(--g-8);}
-  .file{display:flex; align-items:center; gap:14px; padding:14px 16px; border:1px solid var(--g-3); border-radius:var(--radius); text-decoration:none; font-size:14px; background:var(--g-0);}
-  .file:hover{border-color:var(--g-8);}
-  .file .ph-icon{width:32px; height:40px;} .file small{display:block; color:var(--g-6);}
-  .file em{margin-left:auto; display:flex; flex:0 0 20px; width:20px; height:20px; font-style:normal; color:var(--g-6);}
-  .file em svg{width:20px; height:20px; flex:0 0 20px;}
-  .file:hover em{color:var(--g-8);}
-  .doc-tabs{display:flex; gap:8px; margin:20px 0 16px;}
-
-  /* En acción: tarjetas y vista detalle */
-  .pager{display:flex; justify-content:center; align-items:center; gap:8px; margin-top:clamp(40px,6vw,72px);}
-  .pager button{min-width:44px; min-height:44px; padding:0 12px; border:1.5px solid var(--g-4); border-radius:0; background:transparent; font:600 14px/1 var(--font); color:var(--g-8); cursor:pointer; transition:background .2s;}
-  .pager button:hover:not(:disabled){background:var(--g-2);}
-  .pager button[aria-current="page"]{background:var(--g-8); border-color:var(--g-8); color:var(--g-0);}
-  .pager button:disabled{opacity:.35; cursor:default;}
-  .post-card{display:flex; flex-direction:column; gap:12px; text-decoration:none;}
-  .post-card .media{position:relative;}
-  .post-card .ph,.post-detail .ph{border-radius:0;}
-  .post-card:hover h3{text-decoration:underline; text-underline-offset:4px;}
-  .post-card .meta,.post-meta{font-size:13px; color:var(--g-6);}
-  .post-card p.ex{color:var(--g-6); font-size:15px; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;}
-  .post-card .more{position:relative; margin-top:auto; align-self:flex-start; width:52px; height:52px; overflow:hidden; white-space:nowrap; background:var(--g-8); color:var(--g-0); border-radius:0 0 20px 0; font-size:14px; font-weight:700; transition:width .35s cubic-bezier(.16,1,.3,1), background .2s;}
-  .post-card .more svg{position:absolute; top:50%; left:15px; width:22px; height:22px; margin-top:-11px; transition:left .35s cubic-bezier(.16,1,.3,1);}
-  .post-card .more span{position:absolute; left:20px; top:50%; transform:translateY(-50%); opacity:0; transition:opacity .2s;}
-  .post-card:hover .more,.post-card:focus-visible .more{width:100%; background:var(--g-7);}
-  .post-card:hover .more svg,.post-card:focus-visible .more svg{left:calc(100% - 37px);}
-  .post-card:hover .more span,.post-card:focus-visible .more span{opacity:1; transition-delay:.12s;}
-  .play-sm{position:absolute; width:52px; height:52px; border-radius:50%; background:var(--g-8); display:grid; place-items:center;}
-  .play-sm::after{content:""; border-left:14px solid var(--g-0); border-top:9px solid transparent; border-bottom:9px solid transparent; margin-left:4px;}
-  .act-head{display:flex; justify-content:space-between; align-items:flex-end; gap:20px; flex-wrap:wrap; margin-bottom:clamp(24px,3vw,40px);}
-  .post-detail{padding-block:clamp(32px,5vw,64px) 0;}
-  .post-detail h1{font-size:clamp(30px,4.2vw,52px); max-width:24ch; margin:10px 0 clamp(24px,4vw,40px);}
-  .post-cols{display:grid; grid-template-columns:clamp(220px,24vw,300px) minmax(0,1fr); gap:clamp(24px,5vw,72px); align-items:start; margin-top:clamp(24px,4vw,40px);}
-  .post-cols.video{grid-template-columns:clamp(240px,28vw,340px) minmax(0,1fr); margin-top:0;}
-  .post-facts{display:grid; gap:16px; margin:0; font-size:14px;}
-  .post-facts dt{font-size:12px; text-transform:uppercase; letter-spacing:.08em; color:var(--g-6);}
-  .post-facts dd{margin:2px 0 0;}
-  .post-text{max-width:62ch; font-size:clamp(16px,1.3vw,18px);}
-  .post-text p + p{margin-top:1em;}
-  .post-nav{display:grid; grid-template-columns:1fr 1fr; gap:var(--gap); border-top:1px solid var(--g-3); margin-top:clamp(48px,7vw,88px); padding-top:24px;}
-  .post-nav a{text-decoration:none; display:grid; gap:4px;}
-  .post-nav a:hover strong{text-decoration:underline; text-underline-offset:4px;}
-  .post-nav .next{text-align:right;}
-  .post-nav small{color:var(--g-6); font-size:13px;}
-  @media (max-width:820px){
-    .post-cols,.post-cols.video{grid-template-columns:1fr;}
-    .post-cols:not(.video) > :first-child{order:2;}
-    .post-nav{grid-template-columns:1fr;} .post-nav .next{text-align:left;}
-  }
-  .r-916{aspect-ratio:9/16;}
-
-  /* ============ FOOTER ============ */
-  footer{background:var(--g-1); border-top:1px solid var(--g-3); padding-block:56px 28px;}
-  .page:not(#page-inicio){padding-bottom:var(--section);}
-  .foot-grid{display:grid; grid-template-columns:1.4fr 1fr 1fr 1.4fr; gap:32px;}
-  .foot-grid h4{font-size:12px; text-transform:uppercase; letter-spacing:.1em; color:var(--g-6); margin-bottom:14px; font-weight:600;}
-  .foot-grid li + li{margin-top:8px;}
-  .foot-grid a{text-decoration:none; font-size:14px;} .foot-grid a:hover{text-decoration:underline;}
-  .foot-base{display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; border-top:1px solid var(--g-3); margin-top:40px; padding-top:20px; font-size:13px; color:var(--g-6);}
-  @media (max-width:900px){ .foot-grid{grid-template-columns:1fr 1fr;} .foot-grid > :first-child{grid-column:1/-1;} }
-  @media (max-width:520px){ .foot-grid{grid-template-columns:1fr;} }
-
-  .wa{position:fixed; right:16px; bottom:16px; z-index:90; width:56px; height:56px; display:grid; place-items:center; background:var(--g-8); color:var(--g-0); border-radius:var(--shape-s); border-bottom-right-radius:22px; text-decoration:none; transition:background .2s, transform .2s;}
-  .wa:hover{background:var(--g-7); transform:translateY(-2px);}
-  .wa svg{width:28px; height:28px;}
-  .to-top{position:fixed; right:16px; bottom:84px; width:56px; height:56px; border-radius:0; border:1.5px solid var(--g-8); background:var(--g-0); cursor:pointer; display:none; place-items:center; z-index:90;}
-  .to-top.show{display:grid;}
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Trade Up | Almacenaje y logística en Zona Franca La Plata</title>
+<meta name='robots' content='max-image-preview:large' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel='preconnect' href='https://fonts.googleapis.com' />
+<link href='https://fonts.gstatic.com' crossorigin='anonymous' rel='preconnect' />
+<meta name="description" content="Almacenaje y logística en Zona Franca La Plata desde 1997. Recibimos, controlamos y despachamos tu mercadería con beneficios impositivos y logísticos.">
+<meta property="og:locale" content="es_AR">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Trade Up">
+<meta property="og:title" content="Trade Up | Almacenaje y logística en Zona Franca La Plata">
+<meta property="og:description" content="Almacenaje y logística en Zona Franca La Plata desde 1997. Recibimos, controlamos y despachamos tu mercadería con beneficios impositivos y logísticos.">
+<meta property="og:url" content="./">
+<meta property="og:image" content="./wp-content/themes/tradeup/assets/img/logo-tradeup-color.png">
+<meta property="og:image:alt" content="Trade Up">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Trade Up | Almacenaje y logística en Zona Franca La Plata">
+<meta name="twitter:description" content="Almacenaje y logística en Zona Franca La Plata desde 1997. Recibimos, controlamos y despachamos tu mercadería con beneficios impositivos y logísticos.">
+<meta name="twitter:image" content="./wp-content/themes/tradeup/assets/img/logo-tradeup-color.png">
+<meta name="theme-color" content="#141414">
+<style id="wp-img-auto-sizes-contain-inline-css">
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
 </style>
-</head>
-<body>
 
-<a class="skip" href="#main">Saltar al contenido</a>
+<style id="global-styles-inline-css">
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);--wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);}.wp-block-button{--wp--preset--dimension--25: 25%;--wp--preset--dimension--50: 50%;--wp--preset--dimension--75: 75%;--wp--preset--dimension--100: 100%;}:where(body) { margin: 0; }:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}body{padding-top: 0px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;}:root :where(.wp-element-button, .wp-block-button__link){background-color: #32373c;border-width: 0;color: #fff;font-family: inherit;font-size: inherit;font-style: inherit;font-weight: inherit;letter-spacing: inherit;line-height: inherit;padding-top: calc(0.667em + 2px);padding-right: calc(1.333em + 2px);padding-bottom: calc(0.667em + 2px);padding-left: calc(1.333em + 2px);text-decoration: none;text-transform: inherit;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+/*# sourceURL=global-styles-inline-css */
+</style>
 
-<!-- ======================== HEADER ======================== -->
-<header class="site-header">
-  <div class="wrap bar">
-    <a class="logo" href="#inicio" data-route="inicio" aria-label="Trade Up, ir al inicio">
-      <img class="logo-img" src="logo-tradeup-color.png" alt="Trade Up" width="131" height="40">
-    </a>
+<link rel='stylesheet' id='tu-fonts-css' href='https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&#038;family=Ubuntu+Mono:wght@400;700&#038;display=swap' media='all' />
+<link rel='stylesheet' id='tu-tokens-css' href='./wp-content/themes/tradeup/assets/css/tokens.css?ver=1.0.0.1791401057' media='all' />
+<link rel='stylesheet' id='tu-style-css' href='./wp-content/themes/tradeup/style.css?ver=1.0.0.1791571810' media='all' />
+<link rel='stylesheet' id='tu-buttons-css' href='./wp-content/themes/tradeup/assets/css/buttons.css?ver=1.0.0.1791401882' media='all' />
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"./#organization","name":"Trade Up","url":"./","logo":{"@type":"ImageObject","url":"./wp-content/themes/tradeup/assets/img/logo-tradeup-color.png"},"description":"Almacenaje y logística en Zona Franca La Plata desde 1997. Recibimos, controlamos y despachamos tu mercadería con beneficios impositivos y logísticos.","foundingDate":"1997","email":"trade.operaciones@trade-up.com.ar","telephone":"+54 9 11 5304-1759","address":{"@type":"PostalAddress","streetAddress":"Juan Domingo Perón e Hipólito Yrigoyen S/N","addressLocality":"Ensenada","addressRegion":"Buenos Aires","addressCountry":"AR"},"sameAs":["https://www.linkedin.com/in/trade-up-s-r-l-9bb0a433a/"]},{"@type":"WebSite","@id":"./#website","url":"./","name":"Trade Up","inLanguage":"es-AR","publisher":{"@id":"./#organization"}},{"@type":"WebPage","@id":"./#webpage","url":"./","name":"Trade Up | Almacenaje y logística en Zona Franca La Plata","description":"Almacenaje y logística en Zona Franca La Plata desde 1997. Recibimos, controlamos y despachamos tu mercadería con beneficios impositivos y logísticos.","isPartOf":{"@id":"./#website"},"inLanguage":"es-AR"},{"@type":"FAQPage","@id":"./#faq","mainEntity":[{"@type":"Question","name":"¿Cómo funciona una zona franca?","acceptedAnswer":{"@type":"Answer","text":"Una zona franca es un área dentro del país, pero fuera del territorio aduanero general, donde la mercadería puede ingresar, almacenarse y procesarse sin pagar derechos de importación ni otros tributos mientras permanece allí. Cuando sale, hay dos caminos. Si se reexpide al exterior, no paga tributos de importación. Si se destina al mercado local, se nacionaliza y paga recién en ese momento. Así, el importador no inmoviliza capital antes de saber qué va a hacer con la mercadería. Todo ocurre en un recinto controlado por la Aduana y administrado por un operador."}},{"@type":"Question","name":"¿Qué documentación necesito para empezar a operar?","acceptedAnswer":{"@type":"Answer","text":"Los requisitos dependen del tipo de empresa. Los detallamos en la página de Documentación.\n\nVer documentación →"}},{"@type":"Question","name":"¿Se pueden hacer tareas dentro del depósito (fraccionar, etiquetar, reembalar)?","acceptedAnswer":{"@type":"Answer","text":"Sí, la zona franca permite acondicionar la mercadería antes de su destino final, por ejemplo fraccionarla, etiquetarla o reembalarla."}}]}]}</script>
+</head>
+<body class="home wp-singular page-template-default page page-id-7 wp-embed-responsive wp-theme-tradeup">
+
+<a class="skip" href="#main">Saltar al contenido</a>
+
+<header class="site-header">
+	<div class="wrap bar">
+		<a class="logo" href="./index.html" aria-label="Trade Up, ir al inicio">
+			<img class="logo-img" src="./wp-content/themes/tradeup/assets/img/logo-tradeup-color.png" alt="Trade Up" width="131" height="40">		</a>
+
+				<nav aria-label="Principal">
+			<ul class="nav-main">
+									<li><a href="./index.html#servicios">Cómo trabajamos</a></li>
+									<li><a href="./zona-franca/index.html">Zona Franca</a></li>
+									<li><a href="./documentacion/index.html">Documentación</a></li>
+							</ul>
+		</nav>
+		
+		<div class="header-cta">
+							<a class="btn btn--sm" href="./index.html#contacto">Contacto</a>
+						<button class="menu-btn" type="button" id="menuOpen" aria-label="Abrir menú" aria-haspopup="dialog">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+			</button>
+		</div>
+	</div>
+</header>
+
+<dialog class="drawer" id="drawer" aria-label="Menú">
+	<div class="drawer-head">
+		<span class="logo"><img class="logo-img" src="./wp-content/themes/tradeup/assets/img/logo-tradeup-color.png" alt="Trade Up" width="131" height="40"></span>
+		<button class="menu-btn" type="button" id="menuClose" aria-label="Cerrar menú" style="display:grid">
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M5 5l14 14M19 5L5 19"/></svg>
+		</button>
+	</div>
+	<nav aria-label="Menú móvil">
+					<a href="./index.html#servicios">Cómo trabajamos</a>
+					<a href="./zona-franca/index.html">Zona Franca</a>
+					<a href="./documentacion/index.html">Documentación</a>
+							<a class="btn" href="./index.html#contacto" style="justify-content:center">Contacto</a>
+			</nav>
+</dialog>
+
+<main id="main" tabindex="-1">
+
+	<div class="hero-stage">
+		<div class="hero-bg" aria-hidden="true"><div class="hero-bg-sticky">
+			<div class="ph  hero-img empty" aria-hidden="true"></div>			<video class="hero-video" autoplay muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1" poster="./wp-content/themes/tradeup/assets/video/warehouse-worker-loading-boxes-onto-forklift-palle-2026-10-02-20-46-05-utc.jpg">
+					<source src="./wp-content/themes/tradeup/assets/video/warehouse-worker-loading-boxes-onto-forklift-palle-2026-10-02-20-46-05-utc.mp4" type="video/mp4">
+			</video>
+		</div></div>
+
+	<section class="hero" data-header="dark" aria-labelledby="hero-title">
+		<div class="wrap hero-inner">
+			<div class="hero-row">
+				<div class="hero-msg">
+					<h1 class="h1" id="hero-title">Avanzá con control</h1>
+					<p class="lede">Almacenaje y logística en Zona Franca La Plata, para que tu mercadería se mueva sin trabas.</p>				</div>
+								<a class="hero-card" href="./index.html#contacto">
+					<span class="hero-card-cta">Hablemos <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+				</a>
+							</div>
+		</div>
+	</section>
+
+		<noscript><style>.stats-sec .stat{clip-path:none !important;}</style></noscript>
+	<section class="sec stats-sec" aria-label="Trade Up en números">
+		<div class="stats">
+							<div class="stat"><b><span data-count="29">29</span></b><span>años operando en la Zona Franca La Plata</span></div>
+							<div class="stat"><b><span data-count="4000">4.000</span><sup>m²</sup></b><span>entre depósitos cubiertos y descubiertos</span></div>
+							<div class="stat"><b><span data-count="15000">15.000</span><sup>+</sup></b><span>contenedores procesados a lo largo de nuestra historia</span></div>
+					</div>
+	</section>
+		</div>
+
+	<section class="sec" id="nosotros" aria-labelledby="nos-title">
+		<div class="wrap split">
+											<div class="video-frame r-43 shape reveal-mask" aria-hidden="true">
+					<video autoplay muted loop playsinline preload="metadata" tabindex="-1" poster="./wp-content/themes/tradeup/assets/video/forklift-moving-boxes-in-a-warehouse-2026-10-02-10-50-48-utc.jpg">
+						<source src="./wp-content/themes/tradeup/assets/video/forklift-moving-boxes-in-a-warehouse-2026-10-02-10-50-48-utc.mp4" type="video/mp4">
+					</video>
+				</div>
+						<div>
+				<h2 class="h2" id="nos-title" style="margin-bottom:20px">Moviendo carga con criterio desde 1997</h2>
+				<div class="muted prose"><p>Somos una empresa argentina de almacenaje y logística, con base en la Zona Franca La Plata.</p><p>Trabajamos con el sector importador y exportador: recibimos tu mercadería, la clasificamos y la despachamos según lo que necesites, para rubros que van desde la minería y la industria textil hasta la tecnología y la salud.</p><p>Clientes de distintas industrias nos siguen eligiendo desde hace más de diez años.</p></div>
+									<p style="margin-top:28px"><a class="btn" href="./index.html#contacto">Hablar con el equipo</a></p>
+							</div>
+		</div>
+	</section>
+
+		<section class="logos-strip" aria-labelledby="logos-title">
+		<h2 class="sr" id="logos-title">Empresas que confían en Trade Up</h2>
+		<div class="marquee" id="marquee" style="--n:20">
+			<div class="marquee-track">
+								<ul class="logos">
+											<li>
+							<div><img width="300" height="101" src="./wp-content/uploads/2026/10/logo-baw.png" class="attachment-medium size-medium" alt="BAW" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="81" src="./wp-content/uploads/2026/10/logo-epiroc.png" class="attachment-medium size-medium" alt="Epiroc" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="85" src="./wp-content/uploads/2026/10/logo-ncr.png" class="attachment-medium size-medium" alt="NCR" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="90" src="./wp-content/uploads/2026/10/logo-shimano.jpg" class="attachment-medium size-medium" alt="SHIMANO" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="41" src="./wp-content/uploads/2026/10/logo-fmc-technologies.jpg" class="attachment-medium size-medium" alt="FMC Technologies" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="91" src="./wp-content/uploads/2026/10/logo-tradeup-ejemplo.png" class="attachment-medium size-medium" alt="Logo de ejemplo (reemplazar)" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="91" src="./wp-content/uploads/2026/10/logo-tradeup-ejemplo.png" class="attachment-medium size-medium" alt="Logo de ejemplo (reemplazar)" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="91" src="./wp-content/uploads/2026/10/logo-tradeup-ejemplo.png" class="attachment-medium size-medium" alt="Logo de ejemplo (reemplazar)" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="91" src="./wp-content/uploads/2026/10/logo-tradeup-ejemplo.png" class="attachment-medium size-medium" alt="Logo de ejemplo (reemplazar)" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="91" src="./wp-content/uploads/2026/10/logo-tradeup-ejemplo.png" class="attachment-medium size-medium" alt="Logo de ejemplo (reemplazar)" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="101" src="./wp-content/uploads/2026/10/logo-baw.png" class="attachment-medium size-medium" alt="BAW" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="81" src="./wp-content/uploads/2026/10/logo-epiroc.png" class="attachment-medium size-medium" alt="Epiroc" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="85" src="./wp-content/uploads/2026/10/logo-ncr.png" class="attachment-medium size-medium" alt="NCR" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="90" src="./wp-content/uploads/2026/10/logo-shimano.jpg" class="attachment-medium size-medium" alt="SHIMANO" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="41" src="./wp-content/uploads/2026/10/logo-fmc-technologies.jpg" class="attachment-medium size-medium" alt="FMC Technologies" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="91" src="./wp-content/uploads/2026/10/logo-tradeup-ejemplo.png" class="attachment-medium size-medium" alt="Logo de ejemplo (reemplazar)" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="91" src="./wp-content/uploads/2026/10/logo-tradeup-ejemplo.png" class="attachment-medium size-medium" alt="Logo de ejemplo (reemplazar)" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="91" src="./wp-content/uploads/2026/10/logo-tradeup-ejemplo.png" class="attachment-medium size-medium" alt="Logo de ejemplo (reemplazar)" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="91" src="./wp-content/uploads/2026/10/logo-tradeup-ejemplo.png" class="attachment-medium size-medium" alt="Logo de ejemplo (reemplazar)" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="91" src="./wp-content/uploads/2026/10/logo-tradeup-ejemplo.png" class="attachment-medium size-medium" alt="Logo de ejemplo (reemplazar)" loading="lazy" decoding="async" /></div>						</li>
+									</ul>
+								<ul class="logos" aria-hidden="true">
+											<li>
+							<div><img width="300" height="101" src="./wp-content/uploads/2026/10/logo-baw.png" class="attachment-medium size-medium" alt="" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="81" src="./wp-content/uploads/2026/10/logo-epiroc.png" class="attachment-medium size-medium" alt="" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="85" src="./wp-content/uploads/2026/10/logo-ncr.png" class="attachment-medium size-medium" alt="" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="90" src="./wp-content/uploads/2026/10/logo-shimano.jpg" class="attachment-medium size-medium" alt="" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="41" src="./wp-content/uploads/2026/10/logo-fmc-technologies.jpg" class="attachment-medium size-medium" alt="" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="91" src="./wp-content/uploads/2026/10/logo-tradeup-ejemplo.png" class="attachment-medium size-medium" alt="" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="91" src="./wp-content/uploads/2026/10/logo-tradeup-ejemplo.png" class="attachment-medium size-medium" alt="" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="91" src="./wp-content/uploads/2026/10/logo-tradeup-ejemplo.png" class="attachment-medium size-medium" alt="" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="91" src="./wp-content/uploads/2026/10/logo-tradeup-ejemplo.png" class="attachment-medium size-medium" alt="" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="91" src="./wp-content/uploads/2026/10/logo-tradeup-ejemplo.png" class="attachment-medium size-medium" alt="" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="101" src="./wp-content/uploads/2026/10/logo-baw.png" class="attachment-medium size-medium" alt="" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="81" src="./wp-content/uploads/2026/10/logo-epiroc.png" class="attachment-medium size-medium" alt="" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="85" src="./wp-content/uploads/2026/10/logo-ncr.png" class="attachment-medium size-medium" alt="" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="90" src="./wp-content/uploads/2026/10/logo-shimano.jpg" class="attachment-medium size-medium" alt="" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="41" src="./wp-content/uploads/2026/10/logo-fmc-technologies.jpg" class="attachment-medium size-medium" alt="" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="91" src="./wp-content/uploads/2026/10/logo-tradeup-ejemplo.png" class="attachment-medium size-medium" alt="" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="91" src="./wp-content/uploads/2026/10/logo-tradeup-ejemplo.png" class="attachment-medium size-medium" alt="" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="91" src="./wp-content/uploads/2026/10/logo-tradeup-ejemplo.png" class="attachment-medium size-medium" alt="" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="91" src="./wp-content/uploads/2026/10/logo-tradeup-ejemplo.png" class="attachment-medium size-medium" alt="" loading="lazy" decoding="async" /></div>						</li>
+											<li>
+							<div><img width="300" height="91" src="./wp-content/uploads/2026/10/logo-tradeup-ejemplo.png" class="attachment-medium size-medium" alt="" loading="lazy" decoding="async" /></div>						</li>
+									</ul>
+							</div>
+		</div>
+	</section>
+	
+		<section class="svc-section" id="servicios" aria-labelledby="svcTitle">
+		<div class="wrap svc-layout">
+			<div class="svc-head">
+				<div class="svc-head-in">
+					<h2 id="svcTitle">Cómo trabajamos</h2>
+					<p class="lede">El recorrido de tu mercadería, desde que llega el contenedor hasta que sale.</p>				</div>
+			</div>
+			<div class="svc-stack" id="svcGrid">
+									<article class="svc-panel" data-svc="inscripcion-de-usuarios-indirectos" style="--i:0">
+						<div class="svc-inner">
+							<div class="svc-text">
+								<div class="svc-top"><span class="n" aria-hidden="true">01</span><h3>Inscripción de usuarios indirectos</h3></div>
+								<div class="desc"><p>Si sos importador nacional y elegís operar en la Zona Franca La Plata (ZFLP), tramitamos tu inscripción como Usuario Indirecto. Se trata de un trámite sencillo que se realiza por única vez y demora entre 48 y 72 horas. Para iniciarlo:</p><p>1. Enviá la <a href="./documentacion/index.html">documentación requerida</a>.<br />
+2. Aboná el canon anual correspondiente.</p><p>Los contratos tienen un plazo de vigencia de hasta 60 meses.</p><p>*Las empresas extranjeras no inscriptas en el país no necesitan realizar este registro.</p></div>
+								<span class="phase">Antes de operar</span>
+							</div>
+							<div class="ph has-img"><img width="900" height="600" src="./wp-content/uploads/2026/10/oficina-administracion.jpg" class="attachment-tu-panel size-tu-panel" alt="Operario con chaleco refractario cargando datos en la computadora de la oficina" loading="lazy" decoding="async" /></div>						</div>
+					</article>
+									<article class="svc-panel" data-svc="retiro-y-traslado-de-carga" style="--i:1">
+						<div class="svc-inner">
+							<div class="svc-text">
+								<div class="svc-top"><span class="n" aria-hidden="true">02</span><h3>Retiro y traslado de carga</h3></div>
+								<div class="desc"><p>Nos encargamos del retiro de tu carga aérea, desconsolidado, o contenedor de la terminal portuaria y su traslado a la ZFLP. Acá lo desconsolidamos y, si tu mercadería lo requiere, lo bajamos a piso. También coordinamos la devolución del contenedor vacío donde corresponda. La custodia durante el recorrido es optativa.</p></div>
+								<span class="phase">Ingreso · opcional</span>
+							</div>
+							<div class="ph has-img"><img width="900" height="600" src="./wp-content/uploads/2026/10/contenedores-puerto-grua-camion.jpg" class="attachment-tu-panel size-tu-panel" alt="Grúa pórtico levantando un contenedor sobre pilas de contenedores de colores, con un camión esperando en la playa de contenedores" loading="lazy" decoding="async" /></div>						</div>
+					</article>
+									<article class="svc-panel" data-svc="maquinaria-pesada" style="--i:2">
+						<div class="svc-inner">
+							<div class="svc-text">
+								<div class="svc-top"><span class="n" aria-hidden="true">03</span><h3>Maquinaria pesada</h3></div>
+								<div class="desc"><p>Un técnico especializado, con carnet habilitante, realiza el movimiento in/out de la maquinaria pesada para bajar tu mercadería del transporte cuando ingresa y subirla cuando la retirás.</p></div>
+								<span class="phase">Ingreso y egreso</span>
+							</div>
+							<div class="ph has-img"><img width="900" height="600" src="./wp-content/uploads/2026/10/deposito-autoelevador.jpg" class="attachment-tu-panel size-tu-panel" alt="Autoelevador moviendo un pallet con cajas en un pasillo del depósito" loading="lazy" decoding="async" /></div>						</div>
+					</article>
+									<article class="svc-panel" data-svc="paletizado-y-enfilmado" style="--i:3">
+						<div class="svc-inner">
+							<div class="svc-text">
+								<div class="svc-top"><span class="n" aria-hidden="true">04</span><h3>Paletizado y enfilmado</h3></div>
+								<div class="desc"><p>Colocamos tu mercadería sobre pallets y la recubrimos con film transparente. Así facilitamos el almacenaje y la estiba, y la protegemos de deterioros, polvo y suciedad.</p></div>
+								<span class="phase">Ingreso</span>
+							</div>
+							<div class="ph has-img"><img width="900" height="600" src="./wp-content/uploads/2026/10/enfilmado-de-pallet-operarios.jpg" class="attachment-tu-panel size-tu-panel" alt="Dos operarios con casco y chaleco enfilmando con film estirable un pallet de cajas en un pasillo del depósito" loading="lazy" decoding="async" /></div>						</div>
+					</article>
+									<article class="svc-panel" data-svc="almacenaje-de-mercaderias" style="--i:4">
+						<div class="svc-inner">
+							<div class="svc-text">
+								<div class="svc-top"><span class="n" aria-hidden="true">05</span><h3>Almacenaje de mercaderías</h3></div>
+								<div class="desc"><p>Tu mercadería queda en el lugar adecuado, bajo control y con seguimiento durante toda su permanencia.</p><p>Al recibirla, verificamos artículos y cantidades contra la lista de empaque y la documentación de la operación. Luego, definimos la mejor forma de almacenamiento, en racks o a piso, según las características de la mercadería y lo que acordemos con vos.</p><p>Contamos con playa exterior para el almacenaje de maquinaria pesada.</p><p>Nos adaptamos a tu carga y a la forma en que necesitás trabajarla.</p></div>
+								<span class="phase">Permanencia</span>
+							</div>
+							<div class="ph has-img"><img width="900" height="600" src="./wp-content/uploads/2026/10/deposito-inspeccion.jpg" class="attachment-tu-panel size-tu-panel" alt="Dos operarios con casco y chaleco escaneando mercadería en las estanterías del depósito" loading="lazy" decoding="async" /></div>						</div>
+					</article>
+									<article class="svc-panel" data-svc="control-e-informacion-de-stock" style="--i:5">
+						<div class="svc-inner">
+							<div class="svc-text">
+								<div class="svc-top"><span class="n" aria-hidden="true">06</span><h3>Control e información de stock</h3></div>
+								<div class="desc"><p>Desde el ingreso, con una declaración detallada de productos y cantidades, hasta el egreso, controlamos tu mercadería de forma exhaustiva para evitar errores y darte información precisa cuando la necesites. Sumamos registro fotográfico de tu mercadería como respaldo.</p></div>
+								<span class="phase">Todo el proceso</span>
+							</div>
+							<div class="ph has-img"><img width="900" height="600" src="./wp-content/uploads/2026/10/control-de-stock-escaner.jpg" class="attachment-tu-panel size-tu-panel" alt="Operario escaneando la etiqueta de una caja con un lector de mano para controlar el stock" loading="lazy" decoding="async" /></div>						</div>
+					</article>
+									<article class="svc-panel" data-svc="preparacion-de-pedidos" style="--i:6">
+						<div class="svc-inner">
+							<div class="svc-text">
+								<div class="svc-top"><span class="n" aria-hidden="true">07</span><h3>Preparación de pedidos</h3></div>
+								<div class="desc"><p>Podés retirar tu mercadería total o parcialmente, de acuerdo a tus necesidades. Así contás con stock de pronta entrega.</p></div>
+								<span class="phase">Egreso</span>
+							</div>
+							<div class="ph has-img"><img width="900" height="600" src="./wp-content/uploads/2026/10/etiquetado-control-escaner.jpg" class="attachment-tu-panel size-tu-panel" alt="Operario con chaleco refractario escaneando un bulto con un lector de mano sobre una mesa de trabajo, junto a cajas etiquetadas" loading="lazy" decoding="async" /></div>						</div>
+					</article>
+									<article class="svc-panel" data-svc="estampillado-y-etiquetado" style="--i:7">
+						<div class="svc-inner">
+							<div class="svc-text">
+								<div class="svc-top"><span class="n" aria-hidden="true">08</span><h3>Estampillado y etiquetado</h3></div>
+								<div class="desc"><p>A tu pedido, estampillamos y etiquetamos las unidades para cumplir obligaciones fiscales o identificar tus productos.</p></div>
+								<span class="phase">Egreso · a pedido</span>
+							</div>
+							<div class="ph has-img"><img width="900" height="700" src="./wp-content/uploads/2026/10/preparacion-de-pedidos-equipo-900x700.jpg" class="attachment-tu-panel size-tu-panel" alt="Tres operarias con chaleco refractario armando y revisando cajas de pedidos sobre un pallet" loading="lazy" decoding="async" /></div>						</div>
+					</article>
+									<article class="svc-panel" data-svc="balanza-y-certificado-de-reexpedicion" style="--i:8">
+						<div class="svc-inner">
+							<div class="svc-text">
+								<div class="svc-top"><span class="n" aria-hidden="true">09</span><h3>Balanza y certificado de reexpedición</h3></div>
+								<div class="desc"><p>Pesamos tu mercadería en cada ingreso y egreso para corroborar que coincida con la documentación aduanera. Al retirar productos emitimos el certificado de reexpedición, que rebaja el stock ante el concesionario.</p></div>
+								<span class="phase">Ingreso y egreso</span>
+							</div>
+							<div class="ph has-img"><img width="900" height="601" src="./wp-content/uploads/2026/10/pesaje-balanza.jpg" class="attachment-tu-panel size-tu-panel" alt="Operario con guantes volcando granos de café de un balde a un contenedor transparente sobre una balanza" loading="lazy" decoding="async" /></div>						</div>
+					</article>
+									<article class="svc-panel" data-svc="flete-y-distribucion" style="--i:9">
+						<div class="svc-inner">
+							<div class="svc-text">
+								<div class="svc-top"><span class="n" aria-hidden="true">10</span><h3>Flete y distribución</h3></div>
+								<div class="desc"><p>Nos encargamos del traslado de tu mercadería desde la ZFLP hasta el destino que indiques. La custodia durante el viaje es optativa.</p></div>
+								<span class="phase">Egreso · opcional</span>
+							</div>
+							<div class="ph has-img"><img width="900" height="600" src="./wp-content/uploads/2026/10/carga-contenedor-muelle.jpg" class="attachment-tu-panel size-tu-panel" alt="Dos operarios con casco y chaleco cargando cajas en un contenedor abierto sobre la rampa del muelle" loading="lazy" decoding="async" /></div>						</div>
+					</article>
+							</div>
+		</div>
+	</section>
+	
+		<section class="sec" id="en-accion-home" aria-labelledby="acc-title">
+		<div class="wrap">
+			<div class="act-head">
+				<h2 class="h2" id="acc-title">En acción</h2>
+				<a class="btn btn--tertiary" href="./en-accion/index.html">Enterate más</a>
+			</div>
+			<div class="grid-3">
+				<a class="post-card" href="./en-accion/nueva-operacion-para-ncr-argentina-srl/index.html">
+	<div class="media">
+		<div class="ph r-1610 has-img"><img width="281" height="500" src="./wp-content/uploads/2026/09/ncr-descarga-pallet-autoelevador-camion.jpg" class="attachment-tu-card size-tu-card" alt="Autoelevador descargando un pallet enfilmado de un camión en la operación de NCR Argentina" loading="lazy" decoding="async" /></div>		<span class="play-sm" style="top:50%;left:50%;margin:-26px 0 0 -26px" aria-hidden="true"></span><span class="sr">(video)</span>	</div>
+	<span class="meta"><time datetime="2026-09-24T10:00:00-03:00">24/09/26</time> · NCR Argentina SRL</span>
+	<h3 class="h3">Nueva operación para NCR Argentina SRL</h3>
+	<p class="ex">En Trade Up, cada operación tiene un seguimiento personalizado de principio a fin. En esta oportunidad realizamos el movimiento interno, descarga y desconsolidación de la mercadería, acompañando el proceso con…</p>
+	<span class="more" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span>Leer más</span></span>
+</a>
+<a class="post-card" href="./en-accion/importacion-de-dos-smartroc-d65-para-epiroc/index.html">
+	<div class="media">
+		<div class="ph r-1610 has-img"><img width="281" height="500" src="./wp-content/uploads/2026/09/epiroc-smartroc-d65-camiones-cama-baja.jpg" class="attachment-tu-card size-tu-card" alt="Dos perforadoras SmartROC D65 de Epiroc transportadas sobre camiones cama baja" loading="lazy" decoding="async" /></div>		<span class="play-sm" style="top:50%;left:50%;margin:-26px 0 0 -26px" aria-hidden="true"></span><span class="sr">(video)</span>	</div>
+	<span class="meta"><time datetime="2026-09-12T10:00:00-03:00">12/09/26</time> · Epiroc</span>
+	<h3 class="h3">Importación de dos SmartROC D65 para Epiroc</h3>
+	<p class="ex">Una operación que nos deja, sobre todo, la satisfacción de haber hecho bien el trabajo. 💪 En esta oportunidad, acompañamos la importación de 2 SmartROC D65 de Epiroc, una operación…</p>
+	<span class="more" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span>Leer más</span></span>
+</a>
+<a class="post-card" href="./en-accion/carga-combinada-para-nuestro-cliente-patagonia-candles/index.html">
+	<div class="media">
+		<div class="ph r-1610 has-img"><img width="281" height="500" src="./wp-content/uploads/2026/09/patagonia-candles-autoelevador-camion-carga.jpg" class="attachment-tu-card size-tu-card" alt="Autoelevador cargando mercadería de Patagonia Candles en un camión con cortina lateral" loading="lazy" decoding="async" /></div>		<span class="play-sm" style="top:50%;left:50%;margin:-26px 0 0 -26px" aria-hidden="true"></span><span class="sr">(video)</span>	</div>
+	<span class="meta"><time datetime="2026-09-03T10:00:00-03:00">03/09/26</time> · Patagonia Candles</span>
+	<h3 class="h3">Carga combinada para nuestro cliente Patagonia Candles</h3>
+	<p class="ex">Coordinación, logística y operación para que cada carga llegue donde tiene que llegar. 🕯️</p>
+	<span class="more" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span>Leer más</span></span>
+</a>
+			</div>
+		</div>
+	</section>
+	
+		<section class="sec alt" id="mercosur" aria-labelledby="cert-title">
+		<div class="wrap">
+			<div class="band">
+				<div class="ph has-img"><img width="1000" height="637" src="./wp-content/uploads/2026/10/certificado-origen-mercosur.jpg" class="attachment-tu-4-3 size-tu-4-3" alt="Mano sellando un certificado de origen del Mercosur sobre una tablilla" loading="lazy" decoding="async" /></div>				<div class="band-body">
+					<h2 class="h3" id="cert-title" style="font-size:24px">Certificado de Origen Derivado del Mercosur</h2>
+					<div class="muted"><p>Gestionamos el certificado para mercadería originaria de países del Mercosur. Si retirás solo una parte, el resto de tu mercadería sigue siendo reconocida como originaria y conserva el beneficio arancelario preferencial.</p></div>
+											<a class="btn btn--tertiary" style="align-self:flex-start; margin-top:6px" href="https://www.afip.gob.ar/certificado-derivado/informacion-general/que-es.asp" target="_blank" rel="noopener noreferrer">Qué es el certificado en AFIP <svg class="ext-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="butt" aria-hidden="true" focusable="false"><path d="M7 7h10v10M17 7L5 19"/></svg><span class="sr"> (se abre en una nueva pestaña)</span></a>
+									</div>
+			</div>
+		</div>
+	</section>
+	
+		<section class="sec alt" id="zflp" aria-labelledby="tz-title">
+		<div class="wrap">
+			<div class="teaser">
+				<div class="ph reveal-mask-tr has-img"><img width="1000" height="750" src="./wp-content/uploads/2026/10/zona-franca-la-plata-vista-aerea.jpg" class="attachment-tu-4-3 size-tu-4-3" alt="Vista aérea de la Zona Franca La Plata junto al río" loading="lazy" decoding="async" /></div>				<div class="teaser-body">
+					<h2 class="h2" id="tz-title">Beneficios impositivos y logísticos para tu mercadería en tránsito</h2>
+					<div class="muted"><p>Operamos dentro de la Zona Franca La Plata. Conocé cómo funciona y qué beneficios tiene.</p></div>
+					<a class="btn" href="./zona-franca/index.html">Conocer más de ZFLP</a>				</div>
+			</div>
+		</div>
+	</section>
+	
+		<section class="sec" id="faq" aria-labelledby="faq-title">
+		<div class="wrap split" style="align-items:start">
+			<h2 class="h2 faq-title paint-lr" id="faq-title">Preguntas frecuentes</h2>
+			<div class="faq">
+									<details name="faq"><summary>¿Cómo funciona una zona franca?</summary><div class="muted prose"><p>Una zona franca es un área dentro del país, pero fuera del territorio aduanero general, donde la mercadería puede ingresar, almacenarse y procesarse sin pagar derechos de importación ni otros tributos mientras permanece allí. Cuando sale, hay dos caminos. Si se reexpide al exterior, no paga tributos de importación. Si se destina al mercado local, se nacionaliza y paga recién en ese momento. Así, el importador no inmoviliza capital antes de saber qué va a hacer con la mercadería. Todo ocurre en un recinto controlado por la Aduana y administrado por un operador.</p></div></details>
+									<details name="faq"><summary>¿Quién puede usar el servicio?</summary><div class="muted prose"><p>[Respuesta pendiente]</p></div></details>
+									<details name="faq"><summary>¿Qué documentación necesito para empezar a operar?</summary><div class="muted prose"><p>Los requisitos dependen del tipo de empresa. Los detallamos en la página de Documentación.</p><p><a href="./documentacion/index.html">Ver documentación →</a></p></div></details>
+									<details name="faq"><summary>¿Hay mínimos de contratación o plazos mínimos?</summary><div class="muted prose"><p>[Respuesta pendiente]</p></div></details>
+									<details name="faq"><summary>¿Puedo trabajar con mi propio despachante de aduana?</summary><div class="muted prose"><p>[Respuesta pendiente]</p></div></details>
+									<details name="faq"><summary>¿Qué tipo de mercadería se puede almacenar y cuál no?</summary><div class="muted prose"><p>[Respuesta pendiente]</p></div></details>
+									<details name="faq"><summary>¿La mercadería está asegurada?</summary><div class="muted prose"><p>[Respuesta pendiente]</p></div></details>
+									<details name="faq"><summary>¿Se pueden hacer tareas dentro del depósito (fraccionar, etiquetar, reembalar)?</summary><div class="muted prose"><p>Sí, la zona franca permite acondicionar la mercadería antes de su destino final, por ejemplo fraccionarla, etiquetarla o reembalarla.</p></div></details>
+							</div>
+		</div>
+	</section>
+	
+	<section class="sec alt on-dark contact-dark" id="contacto" aria-labelledby="con-title">
+		<div class="wrap split">
+			<div>
+				<h2 class="h2" id="con-title" style="margin-bottom:14px">Contanos qué necesitás</h2>
+				<p class="lede">Llamanos y resolvemos tu consulta en el momento. Si preferís, dejanos tu mensaje y a la brevedad nos pondremos en contacto.</p>
+				<dl class="contact-list">
+											<div><dt><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span class="sr">Teléfono</span></dt><dd><a href="tel:+5491153041759">+54 9 11 5304-1759</a></dd></div>
+																<div><dt><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span class="sr">Email</span></dt><dd><a href="mailto:trade.operaciones@trade-up.com.ar">trade.operaciones@trade-up.com.ar</a></dd></div>
+																<div><dt><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="sr">Dirección</span></dt><dd><a href="https://www.google.com/maps/place/Buenos+Aires+Zona+Franca+La+Plata+S.A./@-34.8576177,-57.9020827,14.75z/data=!4m6!3m5!1s0x95a2e419b037ea3b:0x9437c5144df76138!8m2!3d-34.8549882!4d-57.906597!16s%2Fg%2F11c5bltmmj?entry=ttu&#038;g_ep=EgoyMDI2MTAwNS4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer">Juan Domingo Perón e Hipólito Yrigoyen S/N, Ensenada, Buenos Aires</a></dd></div>
+																<div><dt><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span class="sr">Horarios de atención</span></dt><dd>Lunes a viernes de 8 a 17 hs</dd></div>
+									</dl>
+							</div>
+			<div class="contact-wrap">
+	
+	<form class="contact" method="post" action="./wp-admin/admin-post.php" aria-label="Formulario de consulta" novalidate>
+		<input type="hidden" name="action" value="tu_contact">
+		<input type="hidden" id="_wpnonce" name="_wpnonce" value="c69ba15a12" /><input type="hidden" name="_wp_http_referer" value="/tradeup/" />		<input type="hidden" name="tu_t" value="1791573328.7dcac41c0741d94a5aa493ba957415ebf20ba5ab11aff72fc960a8b41a4e2bb5">
+		<div class="hp" aria-hidden="true"><label>No completar este campo<input type="text" name="sitio_web" tabindex="-1" autocomplete="off"></label></div>
+
+		<label>Nombre <span class="req"><span aria-hidden="true">*</span><span class="sr"> (obligatorio)</span></span>
+			<input type="text" id="f-nombre" name="nombre" placeholder="Tu nombre" autocomplete="name" required aria-required="true" value="">
+					</label>
+		<label>Empresa
+			<input type="text" id="f-empresa" name="empresa" placeholder="Tu empresa" autocomplete="organization" value="">
+		</label>
+		<label>Email <span class="req"><span aria-hidden="true">*</span><span class="sr"> (obligatorio)</span></span>
+			<input type="email" id="f-email" name="email" placeholder="tu@email.com" autocomplete="email" required aria-required="true" value="">
+					</label>
+		<label>Teléfono
+			<input type="tel" id="f-telefono" name="telefono" placeholder="Tu teléfono" autocomplete="tel" value="">
+		</label>
+		<label>Mensaje <span class="req"><span aria-hidden="true">*</span><span class="sr"> (obligatorio)</span></span>
+			<textarea id="f-mensaje" name="mensaje" placeholder="Contanos tu caso" rows="1" required aria-required="true" maxlength="5000"></textarea>
+					</label>
+		<button class="send" type="submit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span>Enviar consulta</span></button>
+	</form>
+</div>
+		</div>
+	</section>
+
+	</main>
 
-    <nav aria-label="Principal">
-      <ul class="nav-main">
-        <li><a href="#servicios" id="svcLink">Cómo trabajamos</a></li>
-        <li><a href="#zona-franca" data-route="zona-franca">Zona Franca</a></li>
-        <li><a href="#documentacion" data-route="documentacion">Documentación</a></li>
-      </ul>
-    </nav>
-
-    <div class="header-cta">
-      <div class="lang" role="group" aria-label="Idioma">
-        <button type="button" data-lang="es" aria-pressed="true" lang="es">ES</button>
-        <button type="button" data-lang="en" aria-pressed="false" lang="en">EN</button>
-      </div>
-      <a class="btn sm" href="#contacto">Contactar</a>
-      <button class="menu-btn" type="button" id="menuOpen" aria-label="Abrir menú" aria-haspopup="dialog">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-      </button>
-    </div>
-  </div>
-</header>
-
-<!-- Menú móvil -->
-<dialog class="drawer" id="drawer" aria-label="Menú">
-  <div class="drawer-head">
-    <span class="logo"><img class="logo-img" src="logo-tradeup-color.png" alt="Trade Up" width="131" height="40"></span>
-    <button class="menu-btn" type="button" id="menuClose" aria-label="Cerrar menú" style="display:grid">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
-    </button>
-  </div>
-  <nav aria-label="Menú móvil">
-    <a href="#servicios">Cómo trabajamos</a>
-    <a href="#zona-franca" data-route="zona-franca">Zona Franca</a>
-    <a href="#documentacion" data-route="documentacion">Documentación</a>
-    <a class="btn" href="#contacto" style="justify-content:center; border-bottom:1.5px solid var(--g-8)">Contactar</a>
-  </nav>
-</dialog>
-
-<main id="main">
-
-<!-- ======================== INICIO ======================== -->
-<div class="page" id="page-inicio">
-
-  <section class="hero">
-    <div class="wrap hero-inner">
-      <div class="ph hero-img"><span>Imagen principal · depósito / contenedores</span></div>
-      <div class="hero-row">
-        <div class="hero-msg">
-          <h1 class="h1">Avanzá con control</h1>
-          <p class="lede">Almacenaje y logística en Zona Franca La Plata, para que tu mercadería se mueva sin trabas.</p>
-        </div>
-        <a class="hero-card" href="#contacto">
-          <span class="hero-card-cta">Hablemos <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="sec" style="padding-block:0 clamp(32px,5vw,56px)" aria-label="En números">
-    <div class="wrap">
-      <div class="stats">
-        <div class="stat"><b>29</b><span>años operando en la Zona Franca La Plata</span></div>
-        <div class="stat"><b>3.875<sup>m²</sup></b><span>entre depósitos cubiertos y descubiertos</span></div>
-        <div class="stat"><b>15.000<sup>+</sup></b><span>contenedores procesados a lo largo de nuestra historia</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="sec" id="nosotros">
-    <div class="wrap split">
-      <div class="ph shape r-43"><div class="ph-play" aria-hidden="true"></div><span style="position:absolute; bottom:12px">Video institucional</span></div>
-      <div>
-        <h2 class="h2" style="margin-bottom:20px">Moviendo carga con criterio desde 1997</h2>
-        <p class="muted" style="margin-bottom:14px">Somos una empresa argentina de almacenaje y logística, con base en la Zona Franca La Plata.</p>
-        <p class="muted" style="margin-bottom:14px">Trabajamos con el sector importador y exportador: recibimos tu mercadería, la clasificamos y la despachamos según lo que necesites, para rubros que van desde la minería y la industria textil hasta la tecnología y la salud.</p>
-        <p class="muted" style="margin-bottom:28px">Clientes de distintas industrias nos siguen eligiendo desde hace más de diez años.</p>
-        <a class="link-arrow" href="#contacto">Hablar con el equipo →</a>
-      </div>
-    </div>
-    <div class="wrap" style="margin-top:clamp(40px,6vw,72px)">
-      <div class="logos"><div>LOGO</div><div>LOGO</div><div>LOGO</div><div>LOGO</div><div>LOGO</div><div>LOGO</div></div>
-    </div>
-  </section>
-
-  <section class="svc-section" id="servicios" aria-labelledby="svcTitle">
-    <div class="wrap">
-      <div class="svc-head">
-        <h2 id="svcTitle">Cómo trabajamos</h2>
-      </div>
-      <p class="lede" style="margin:0 0 clamp(24px,4vw,40px)">El recorrido de tu mercadería, desde que llega el contenedor hasta que sale.</p>
-    </div>
-    <div class="wrap"><div class="svc-stack" id="svcGrid"></div></div>
-  </section>
-
-  <section class="sec" id="en-accion-home">
-    <div class="wrap">
-      <div class="act-head">
-        <h2 class="h2">En acción</h2>
-        <a class="link-arrow" href="#en-accion" data-route="en-accion">Enterate más →</a>
-      </div>
-      <div class="grid-3" id="postHome"></div>
-    </div>
-  </section>
-
-  <section class="sec">
-    <div class="wrap">
-      <div class="band">
-        <div class="ph" role="img" aria-label="Imagen del certificado (placeholder)"><span>Imagen · certificado / mercadería</span></div>
-        <div class="band-body">
-          <h2 class="h3" style="font-size:24px">Certificado de Origen Derivado del Mercosur</h2>
-          <p class="muted">Gestionamos el certificado para mercadería originaria de países del Mercosur. Si retirás solo una parte, el resto de tu mercadería sigue siendo reconocida como originaria y conserva el beneficio arancelario preferencial.</p>
-          <a class="link-arrow" style="align-self:flex-start; margin-top:6px" href="https://www.afip.gob.ar/certificado-derivado/informacion-general/que-es.asp" target="_blank" rel="noopener noreferrer">Qué es el certificado en AFIP <span aria-hidden="true">↗</span><span class="sr">(se abre en una nueva pestaña)</span></a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="sec alt" id="zflp">
-    <div class="wrap">
-      <div class="teaser">
-        <div class="ph"><span>Imagen · Zona Franca La Plata</span></div>
-        <div class="teaser-body">
-          <h2 class="h2">Beneficios impositivos y logísticos para tu mercadería en tránsito</h2>
-          <p class="muted">Operamos dentro de la Zona Franca La Plata. Conocé cómo funciona y qué beneficios tiene.</p>
-          <a class="btn" href="#zona-franca" data-route="zona-franca">Conocer más de ZFLP</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="sec" id="faq">
-    <div class="wrap split" style="align-items:start">
-      <h2 class="h2 faq-title">Preguntas frecuentes</h2>
-      <div class="faq">
-        <details><summary>¿Cómo funciona una zona franca?</summary><div class="muted">Una zona franca es un área dentro del país, pero fuera del territorio aduanero general, donde la mercadería puede ingresar, almacenarse y procesarse sin pagar derechos de importación ni otros tributos mientras permanece allí. Cuando sale, hay dos caminos. Si se reexpide al exterior, no paga tributos de importación. Si se destina al mercado local, se nacionaliza y paga recién en ese momento. Así, el importador no inmoviliza capital antes de saber qué va a hacer con la mercadería. Todo ocurre en un recinto controlado por la Aduana y administrado por un operador.</div></details>
-        <details><summary>¿Quién puede usar el servicio?</summary><div class="pending">[Respuesta pendiente]</div></details>
-        <details><summary>¿Qué documentación necesito para empezar a operar?</summary><div class="muted"><p style="margin-bottom:14px">Los requisitos dependen del tipo de empresa. Los detallamos en la página de Documentación.</p><a class="link-arrow" href="#documentacion" data-route="documentacion">Ver documentación →</a></div></details>
-        <details><summary>¿Hay mínimos de contratación o plazos mínimos?</summary><div class="pending">[Respuesta pendiente]</div></details>
-        <details><summary>¿Puedo trabajar con mi propio despachante de aduana?</summary><div class="pending">[Respuesta pendiente]</div></details>
-        <details><summary>¿Qué tipo de mercadería se puede almacenar y cuál no?</summary><div class="pending">[Respuesta pendiente]</div></details>
-        <details><summary>¿La mercadería está asegurada?</summary><div class="pending">[Respuesta pendiente]</div></details>
-        <details><summary>¿Se pueden hacer tareas dentro del depósito (fraccionar, etiquetar, reembalar)?</summary><div class="muted">Sí, la zona franca permite acondicionar la mercadería antes de su destino final, por ejemplo fraccionarla, etiquetarla o reembalarla.</div></details>
-      </div>
-    </div>
-  </section>
-
-  <section class="sec alt" id="contacto">
-    <div class="wrap split" style="align-items:start">
-      <div>
-        <h2 class="h2" style="margin-bottom:14px">Hablemos de tu próxima carga</h2>
-        <p class="lede">Llamanos y resolvemos tu consulta en el momento. Si preferís, dejanos tu mensaje y a la brevedad nos pondremos en contacto.</p>
-        <dl class="contact-list">
-          <div><span class="ph ph-icon" aria-hidden="true"></span><span><dt>Teléfono</dt><dd style="margin:4px 0 0"><a href="tel:+5491153041759">+54 9 11 5304-1759</a> <span class="small muted">· Oficina</span></dd></span></div>
-          <div><span class="ph ph-icon" aria-hidden="true"></span><span><dt>Email</dt><dd style="margin:4px 0 0"><a href="mailto:trade.operaciones@trade-up.com.ar">trade.operaciones@trade-up.com.ar</a></dd></span></div>
-          <div><span class="ph ph-icon" aria-hidden="true"></span><span><dt>Dirección</dt><dd style="margin:4px 0 0">Riglos 255, Piso 3C, CABA</dd></span></div>
-          <div><span class="ph ph-icon" aria-hidden="true"></span><span><dt>Horarios de atención</dt><dd style="margin:4px 0 0">Lunes a viernes de 8 a 17 hs</dd></span></div>
-        </dl>
-        <div class="ph r-169"><span>Mapa embebido</span></div>
-      </div>
-      <form class="contact" onsubmit="return false" aria-label="Formulario de consulta">
-        <label>Nombre<input type="text" autocomplete="name" placeholder="Nombre y apellido"></label>
-        <label>Empresa<input type="text" autocomplete="organization" placeholder="Razón social"></label>
-        <label>Email<input type="email" autocomplete="email" placeholder="nombre@empresa.com"></label>
-        <label>Teléfono<input type="tel" autocomplete="tel" placeholder="+54 …"></label>
-        <label>Mensaje<textarea placeholder="Contanos qué necesitás mover"></textarea></label>
-        <button class="btn" type="submit">Enviar consulta</button>
-      </form>
-    </div>
-  </section>
-</div>
-
-<!-- ======================== ZONA FRANCA ======================== -->
-<div class="page" id="page-zona-franca">
-  <nav class="crumbs" aria-label="Migas de pan"><div class="wrap"><ol><li><a href="#inicio" data-route="inicio">Inicio</a></li><li aria-current="page">Zona Franca</li></ol></div></nav>
-  <header class="page-head" style="border-bottom:0"><div class="wrap">
-    <h1 class="h1">Qué es la Zona Franca La Plata</h1>
-    <p class="lede">Un área aduanera especial donde la mercadería puede ingresar, almacenarse y reexpedirse con beneficios impositivos y operativos que no aplican en el territorio aduanero general.</p>
-  </div></header>
-
-  <section style="padding-top:var(--section)">
-    <div class="wrap">
-      <div>
-        <div class="block" id="zf-que">
-          <div class="split" style="align-items:start">
-            <div>
-              <h2 class="h2" style="margin-bottom:18px">Trade Up en la zona</h2>
-              <p class="muted">Trade Up opera dentro de esta zona desde 1997, dando soporte a empresas que importan insumos, maquinaria o productos terminados, para su ingreso a la Argentina o para reenviarlos a otros destinos.</p>
-            </div>
-            <div class="ph shape r-43"><span>Imagen · vista aérea de la zona</span></div>
-          </div>
-        </div>
-
-        <div class="block" id="zf-beneficios">
-          <h2 class="h2" style="margin-bottom:28px">Beneficios</h2>
-          <div class="grid-3">
-            <div class="card"><span class="ph ph-icon" aria-hidden="true"></span><h3 class="h3">Comercial</h3><p>Suspensión de aranceles e impuestos mientras la mercadería permanece en zona franca.</p></div>
-            <div class="card"><span class="ph ph-icon" aria-hidden="true"></span><h3 class="h3">Industrial</h3><p>Posibilidad de procesar o acondicionar mercadería antes de su destino final.</p></div>
-            <div class="card"><span class="ph ph-icon" aria-hidden="true"></span><h3 class="h3">Servicios</h3><p>Atención personalizada y respuesta rápida ante cada operación.</p></div>
-          </div>
-        </div>
-
-        <div class="block" id="zf-historia">
-          <h2 class="h2" style="margin-bottom:28px">Línea de tiempo</h2>
-          <div class="vtl" id="vtl">
-            <span class="vtl-fill" id="vtlFill"></span>
-            <div class="tl"><p class="tl-kicker muted">Sus comienzos</p><b>1907</b>
-              <p class="muted">El Congreso Nacional sancionó la ley 5142, que estableció una zona de libre comercio en el ámbito del puerto de La Plata.</p>
-              <p class="muted">Las empresas radicadas allí podrían operar en comercio exterior sin pagar derechos ni aranceles.</p>
-              <p class="muted">Fue una herramienta innovadora para el continente, pensada para conectar la incipiente producción del país con los mercados internacionales.</p></div>
-            <div class="tl"><b>1991</b>
-              <p class="muted">El gobierno de la Provincia de Buenos Aires retomó esa iniciativa e impulsó su reglamentación y puesta en marcha.</p></div>
-            <div class="tl"><b>1993</b>
-              <p class="muted">Se reglamentó la ley de principios de siglo.</p></div>
-            <div class="tl"><b>1994</b>
-              <p class="muted">La ley 24331 dio a cada provincia la posibilidad de tener su propia zona franca.</p></div>
-            <div class="tl"><b>Pioneros</b>
-              <p class="muted">Con la creación del Ente de Administración y Explotación de la Zona Franca, la Provincia fue pionera en el desarrollo de las zonas francas argentinas.</p>
-              <p class="muted">Creó los instrumentos legales, llamó a licitación pública nacional e internacional y adjudicó la explotación a Buenos Aires Zona Franca La Plata S.A.</p></div>
-            <div class="tl"><p class="tl-kicker muted">Hoy</p><b>Una realidad en pleno crecimiento</b>
-              <p class="muted">Lo que empezó como una ley de 1907 es hoy una realidad en pleno crecimiento.</p></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section style="padding-top:var(--section)"><div class="wrap">
-    <div class="cta-band">
-      <div><h2 class="h2" style="margin-bottom:8px">¿Listo para operar en zona franca?</h2><p>Revisá qué documentación necesitás o hablá con el equipo.</p></div>
-      <div class="btn-row"><a class="btn" href="#documentacion" data-route="documentacion">Ver documentación</a><a class="btn ghost" href="#contacto">Contactar</a></div>
-    </div>
-  </div></section>
-</div>
-
-<!-- ======================== DOCUMENTACIÓN ======================== -->
-<div class="page" id="page-documentacion">
-  <nav class="crumbs" aria-label="Migas de pan"><div class="wrap"><ol><li><a href="#inicio" data-route="inicio">Inicio</a></li><li aria-current="page">Documentación</li></ol></div></nav>
-  <header class="page-head" style="border-bottom:0"><div class="wrap">
-    <h1 class="h1">Documentación</h1>
-    <p class="lede">Inscribite como usuario y empezá a operar dentro de Zona Franca La Plata con nosotros.</p>
-  </div></header>
-
-  <section style="padding-top:0"><div class="wrap">
-    <div class="steps">
-    <div class="step" id="doc-inscribir"><span class="step-n" aria-hidden="true">01</span><div class="step-body">
-      <span class="tag" style="display:block; font-size:12px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--g-6); margin-bottom:14px">Para inscribirte</span>
-      <h2 class="h2" style="margin-bottom:12px">Alta como usuario de la Zona Franca La Plata</h2>
-        <p class="muted" style="margin:0; max-width:60ch">Podés ir juntando esta documentación mientras avanzás con la inscripción. Para recibir el contrato y el monto a abonar, escribinos.</p>
-      <div class="grid-2" style="align-items:start; margin-top:28px; gap:clamp(32px,5vw,72px)">
-        <div>
-          <h3 class="small" style="margin:0 0 10px; text-transform:uppercase; letter-spacing:.1em; color:var(--g-6)">Documentación a presentar</h3>
-        <ul class="checks num">
-          <li><span>Copia certificada del estatuto de la sociedad<br><small class="muted">Importante: si la empresa es SRL, adjuntá también copia del último balance con certificación del Consejo Profesional, con sello y firma del firmante o apoderado.</small></span></li>
-          <li>Copia certificada de las Actas de Directorio y Asamblea con la designación de autoridades actualizadas</li>
-          <li>Constancia de inscripción en Ingresos Brutos o Convenio Multilateral</li>
-          <li>Constancia de inscripción en ARCA (ex AFIP), con CUIT</li>
-          <li>Inscripción como importador/exportador (impresión de pantalla para validar los datos)</li>
-          <li>Copia del DNI del firmante, frente y dorso</li>
-        </ul>
-        </div>
-        <div>
-          <h3 class="small" style="margin:0 0 10px; text-transform:uppercase; letter-spacing:.1em; color:var(--g-6)">Formularios a completar</h3>
-          <div style="display:grid; gap:10px">
-        <a class="file" href="MODELO%20-FORM.%20APTITUD%20OPERATIVA%20-.doc" download><span>Aptitud operativa<small>Completo, firmado y certificado por banco o escribano</small></span><em><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span class="sr">(descargar)</span></em></a>
-        <a class="file" href="MODELO%20FORM%20-%20Personas%20Juridicas.doc" download><span>Solicitud de ingreso - Personas Jurídicas<small>Completo, firmado y certificado por banco o escribano</small></span><em><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span class="sr">(descargar)</span></em></a>
-        <a class="file" href="NOTA%20%201%20%3B%20%20DDJJ.doc" download><span>Nota 1 - Declaración Jurada<small>Con membrete de la empresa, dirigida a la Unidad de Promoción, Gestión y Control de Zona Franca</small></span><em><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span class="sr">(descargar)</span></em></a>
-        <a class="file" href="NOTA%20%202%20%3B%20%20TIPO%20DE%20MERCADERIA.doc" download><span>Nota 2 - Tipo de Mercadería<small>Productos a ingresar, comercializar o almacenar. Con membrete de la empresa, dirigida a la Unidad de Promoción, Gestión y Control de Zona Franca</small></span><em><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span class="sr">(descargar)</span></em></a>
-          </div>
-          <p class="small muted" style="margin:16px 0 0">Para facilitar la inscripción, enviá cada punto en un PDF separado.</p>
-        <a class="btn ghost" style="margin-top:28px" href="https://wa.me/5491153041759?text=Hola%2C%20quisiera%20consultar%20por%20la%20inscripci%C3%B3n%20como%20usuario%20de%20la%20Zona%20Franca%20La%20Plata." target="_blank" rel="noopener noreferrer">Consultar por la inscripción <span aria-hidden="true">↗</span><span class="sr">(se abre en una nueva pestaña)</span></a>
-        </div>
-      </div>
-    </div></div>
-
-    <div class="step" id="doc-operar"><span class="step-n" aria-hidden="true">02</span><div class="step-body">
-      <span class="tag" style="display:block; font-size:12px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--g-6); margin-bottom:14px">Para operar</span>
-      <h2 class="h2" style="margin-bottom:12px">Documentación para que tu mercadería entre o salga sin demoras</h2>
-        <ul class="checks cols tick">
-          <li>Usuario ZFLP</li><li>Formulario de solicitud</li><li>Tránsito</li><li>Conocimiento de embarque</li><li>Factura comercial</li><li>Lista de empaque</li>
-        </ul>
-    </div></div>
-    </div>
-  </div></section>
-
-  <section style="padding-top:var(--section)"><div class="wrap">
-    <div class="cta-band">
-      <div><h2 class="h2" style="margin-bottom:8px">¿Dudas con algún trámite?</h2><p>Te acompañamos en cada paso.</p></div>
-      <a class="btn" href="#contacto">Contactar</a>
-    </div>
-  </div></section>
-</div>
-
-<!-- ======================== EN ACCIÓN ======================== -->
-<div class="page" id="page-en-accion">
-  <nav class="crumbs" aria-label="Migas de pan"><div class="wrap"><ol><li><a href="#inicio" data-route="inicio">Inicio</a></li><li aria-current="page">En acción</li></ol></div></nav>
-  <header class="page-head" style="border-bottom:0"><div class="wrap">
-    <h1 class="h1">En acción</h1>
-    <p class="lede">Mirá desde adentro cómo trabajamos: las operaciones, los clientes y el equipo que hace que cada mercadería llegue a destino. Esto es lo que pasa en Trade Up todos los días.</p>
-  </div></header>
-  <section style="padding-top:0"><div class="wrap"><div class="grid-3" id="postList"></div><nav class="pager" id="postPager" aria-label="Paginado de novedades"></nav></div></section>
-</div>
-
-<div class="page" id="page-post">
-  <nav class="crumbs" aria-label="Migas de pan"><div class="wrap"><ol><li><a href="#inicio" data-route="inicio">Inicio</a></li><li><a href="#en-accion" data-route="en-accion">En acción</a></li><li aria-current="page" id="postCrumb"></li></ol></div></nav>
-  <article class="post-detail"><div class="wrap" id="postDetail"></div></article>
-  <section style="padding-top:var(--section)"><div class="wrap">
-    <div class="cta-band">
-      <div><h2 class="h2" style="margin-bottom:8px">¿Tenés una operación para coordinar?</h2><p>Contanos qué necesitás mover y te acompañamos de punta a punta.</p></div>
-      <a class="btn" href="#contacto">Hablemos</a>
-    </div>
-  </div></section>
-</div>
-
-</main>
-
-<!-- ======================== FOOTER ======================== -->
-<footer>
-  <div class="wrap">
-    <div class="foot-grid">
-      <div>
-        <a class="logo" href="#inicio" data-route="inicio" style="margin-bottom:14px"><img class="logo-img" src="logo-tradeup-color.png" alt="Trade Up" width="131" height="40"></a>
-        <p class="small muted" style="max-width:34ch">Almacenaje y logística en Zona Franca La Plata desde 1997.</p>
-      </div>
-      <div><ul><li><a href="#nosotros">Nosotros</a></li><li><a href="#servicios">Cómo trabajamos</a></li><li><a href="#en-accion" data-route="en-accion">En acción</a></li></ul></div>
-      <div><ul><li><a href="#zona-franca" data-route="zona-franca">Zona Franca La Plata</a></li><li><a href="#documentacion" data-route="documentacion">Documentación</a></li><li><a href="#faq">Preguntas frecuentes</a></li></ul></div>
-      <div><ul><li><a href="tel:+5491153041759">+54 9 11 5304-1759</a> <span class="small muted">· Oficina</span></li><li><a href="mailto:trade.operaciones@trade-up.com.ar">trade.operaciones@trade-up.com.ar</a></li><li class="small muted">Riglos 255, Piso 3C, CABA</li><li><a href="https://www.linkedin.com/in/trade-up-s-r-l-9bb0a433a/" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span><span class="sr">(se abre en una nueva pestaña)</span></a></li></ul></div>
-    </div>
-    <div class="foot-base"><span>© 2026 Trade Up</span></div>
-  </div>
+<footer data-header="dark">
+	<div class="wrap">
+		<div class="foot-grid">
+			<div class="foot-links">
+				<div><ul><li><a href="./index.html#nosotros">Nosotros</a></li><li><a href="./index.html#servicios">Cómo trabajamos</a></li><li><a href="./en-accion/index.html">En acción</a></li></ul></div>				<div><ul><li><a href="./zona-franca/index.html">Zona Franca La Plata</a></li><li><a href="./documentacion/index.html">Documentación</a></li><li><a href="./index.html#faq">Preguntas frecuentes</a></li></ul></div>				<div>
+					<ul>
+																		<li><a href="https://www.linkedin.com/in/trade-up-s-r-l-9bb0a433a/" target="_blank" rel="noopener noreferrer">LinkedIn <svg class="ext-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="butt" aria-hidden="true" focusable="false"><path d="M7 7h10v10M17 7L5 19"/></svg><span class="sr"> (se abre en una nueva pestaña)</span></a></li>					</ul>
+				</div>
+			</div>
+			<div class="foot-brand">
+				<a class="logo" href="./index.html" aria-label="Trade Up, ir al inicio" style="margin-bottom:14px"><img class="logo-img" src="./wp-content/themes/tradeup/assets/img/logo-tradeup-color.png" alt="Trade Up" width="131" height="40"></a>
+				<div class="foot-base">
+					<span>© 2026 Trade Up. Todos los derechos reservados.</span>
+					<span>Diseño y desarrollo web por <a href="https://marigarayco.com.ar" target="_blank" rel="noopener noreferrer">Marisol Garaycoechea<span class="sr"> (se abre en una nueva pestaña)</span></a></span>
+				</div>
+			</div>
+		</div>
+	</div>
 </footer>
 
 <a class="wa" href="https://wa.me/5491153041759?text=Hola%2C%20quisiera%20hacer%20una%20consulta." target="_blank" rel="noopener noreferrer" aria-label="Escribinos por WhatsApp (se abre en una nueva pestaña)">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.6-4.7A8.5 8.5 0 1 1 8 19.5L3 21z"/><path d="M9 8.5c0 3.5 3 6.5 6.5 6.5l1-1.6-2.2-1-.9.9a4.3 4.3 0 0 1-2-2l.9-.9-1-2.2L9 8.5z" fill="currentColor" stroke="none"/></svg>
+	<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 21l1.6-4.7A8.5 8.5 0 1 1 8 19.5L3 21z"/><path d="M9 8.5c0 3.5 3 6.5 6.5 6.5l1-1.6-2.2-1-.9.9a4.3 4.3 0 0 1-2-2l.9-.9-1-2.2L9 8.5z" fill="currentColor" stroke="none"/></svg>
 </a>
-<button class="to-top" id="toTop" type="button" aria-label="Volver arriba"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+<button class="to-top" id="toTop" type="button" aria-label="Volver arriba"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
 
-<script>
-  /* ---------- Datos de servicios ---------- */
-  /* Orden = recorrido de la mercadería. [momento, título, descripción] */
-  const SERVICES = [
-    ['Antes de operar','Inscripción de usuarios indirectos','Si sos importador nacional y elegís operar en ZFLP, te inscribimos como Usuario Indirecto: un trámite simple en el que presentás la documentación del Ente y abonás el canon anual, con contratos de hasta 60 meses. Las empresas extranjeras no inscriptas en el país no necesitan inscribirse.','[Pendiente de confirmar: ¿Trade Up realiza el trámite por el cliente o solo lo orienta?]'],
-    ['Ingreso · opcional','Operaciones con contenedores','Nos encargamos del retiro del contenedor de la terminal portuaria y su traslado a la ZFLP. Acá lo desconsolidamos y, si tu mercadería lo requiere, lo bajamos a piso. También coordinamos la devolución del vacío donde corresponda. La custodia durante el recorrido es optativa.'],
-    ['Ingreso y egreso','Maquinaria pesada','Un técnico especializado opera la maquinaria pesada para bajar tu mercadería del transporte cuando ingresa y subirla cuando la retirás.'],
-    ['Ingreso','Paletizado y enfilmado','Colocamos tu mercadería sobre pallets y la recubrimos con film transparente para facilitar el almacenaje, evitar deterioros y mejorar el estibaje durante la distribución.'],
-    ['Permanencia','Almacenaje de mercaderías','Verificamos cada artículo y cantidad contra la lista de empaque y la factura, y luego almacenamos bajo techo o en playa, en racks o a piso, según las características del producto o lo que acordemos con vos.'],
-    ['Todo el proceso','Control e información de stock','Desde el ingreso, con una declaración detallada de productos y cantidades, hasta el egreso, controlamos tu mercadería de forma exhaustiva para evitar errores y darte información cuando la necesites. Sumamos registro fotográfico de tu mercadería como respaldo.'],
-    ['Egreso','Preparación de pedidos','Podés retirar tu mercadería total o parcialmente, y la fraccionamos como decidas. Así contás con stock de pronta entrega cuando lo necesites.'],
-    ['Egreso · a pedido','Estampillado y etiquetado','A tu pedido, estampillamos y etiquetamos las unidades para cumplir obligaciones fiscales o identificar tus productos.'],
-    ['Ingreso y egreso','Balanza y certificado de reexpedición','Pesamos tu mercadería en cada ingreso y egreso para corroborar que coincida con la documentación aduanera. Al retirar productos emitimos el certificado de reexpedición, que los da de baja del stock ante el concesionario y la Aduana.'],
-    ['Egreso · opcional','Flete y distribución','Nos encargamos del traslado de tu mercadería desde la ZFLP hasta el destino que indiques. La custodia durante el viaje es optativa.']
-  ];
-  const grid = document.getElementById('svcGrid');
-  grid.innerHTML = SERVICES.map(([cat,t,d,note],i) => `
-    <article class="svc-panel" style="--i:${i}">
-      <div class="svc-inner">
-        <span class="n" aria-hidden="true">${String(i+1).padStart(2,'0')}</span>
-        <h3>${t}</h3>
-        <span class="phase">${cat}</span>
-        <div class="desc">
-          <p${d.startsWith('[') ? ' class="pending"' : ''}>${d}</p>
-          ${note ? `<p class="pending">${note}</p>` : ''}
-        </div>
-        <div class="ph" role="img" aria-label="Imagen del servicio (placeholder)"><span>Imagen</span></div>
-      </div>
-    </article>`).join('');
-
-  /* ---------- En acción: posts (contenido de ejemplo del cliente) ---------- */
-  const POSTS = [
-    {id:'ncr', title:'Nueva operación para NCR Argentina SRL', date:'24/09/26', client:'NCR Argentina SRL', op:'Descarga y desconsolidación', media:'image',
-     body:['En Trade Up, cada operación tiene un seguimiento personalizado de principio a fin.',
-           'En esta oportunidad realizamos el movimiento interno, descarga y desconsolidación de la mercadería, acompañando el proceso con el correspondiente control e inspección de los productos.',
-           '🔎 Analizamos cada mercadería de manera particular, teniendo en cuenta sus características y necesidades, para asegurar un manejo ordenado y preciso durante toda la operación.',
-           '🤝 Porque no se trata solamente de almacenar o descargar. Se trata de conocer la mercadería, entender la operación y brindar el respaldo que cada cliente necesita.']},
-    {id:'epiroc', title:'Importación de dos SmartROC D65 para Epiroc', date:'12/09/26', client:'Epiroc', op:'Maquinaria pesada · Importación', media:'image',
-     body:['Una operación que nos deja, sobre todo, la satisfacción de haber hecho bien el trabajo. 💪',
-           'En esta oportunidad, acompañamos la importación de 2 SmartROC D65 de Epiroc, una operación que requirió planificación, coordinación y seguimiento en cada etapa para cumplir con los tiempos previstos y que la mercadería llegara en las condiciones esperadas.',
-           'Pero detrás de cada operación hay algo que valoramos especialmente: el trabajo en equipo y la confianza de nuestros clientes.',
-           'Gracias al equipo de Epiroc por confiar nuevamente en nosotros y por compartir y reconocer el trabajo realizado. Para todo el equipo de Trade Up, es una gran motivación seguir acompañándolos en cada nueva operación.',
-           'Seguimos trabajando para que cada ingreso sea más que una operación logística: sea una operación bien coordinada, segura y cumplida. 🌎🤝']},
-    {id:'patagonia', title:'Carga combinada para nuestro cliente Patagonia Candles', date:'03/09/26', client:'Patagonia Candles', op:'Carga combinada', media:'video', with:'MeloSupplyChain S.R.L',
-     body:['Coordinación, logística y operación para que cada carga llegue donde tiene que llegar. 🕯️']},
-    {id:'ej4', title:'Almacenaje de insumos industriales para [cliente]', date:'27/08/26', client:'[Cliente a confirmar]', op:'Almacenaje', media:'image', body:['[Texto de ejemplo] Recibimos, verificamos y almacenamos la mercadería contra la documentación, con registro fotográfico del ingreso.']},
-    {id:'ej5', title:'Operación con contenedores para [cliente]', date:'14/08/26', client:'[Cliente a confirmar]', op:'Operaciones con contenedores', media:'image', body:['[Texto de ejemplo] Desconsolidamos y ordenamos la carga para dejarla lista para su próximo destino.']},
-    {id:'ej6', title:'Reexpedición de mercadería para [cliente]', date:'30/07/26', client:'[Cliente a confirmar]', op:'Reexpedición', media:'video', body:['[Texto de ejemplo] Preparamos el pedido, pesamos la carga y emitimos el certificado de reexpedición.']},
-    {id:'ej7', title:'Nuevo cliente en la Zona Franca La Plata', date:'16/07/26', client:'[Cliente a confirmar]', op:'Inscripción de usuarios indirectos', media:'image', body:['[Texto de ejemplo] Acompañamos la inscripción como Usuario Indirecto y el primer ingreso de mercadería.']},
-    {id:'ej8', title:'Paletizado y enfilmado de carga para [cliente]', date:'02/07/26', client:'[Cliente a confirmar]', op:'Paletizado y enfilmado', media:'image', body:['[Texto de ejemplo] Acondicionamos la carga para facilitar su almacenaje y su estibaje durante la distribución.']},
-    {id:'ej9', title:'Etiquetado y fraccionamiento para [cliente]', date:'18/06/26', client:'[Cliente a confirmar]', op:'Estampillado y etiquetado', media:'image', body:['[Texto de ejemplo] Fraccionamos y etiquetamos las unidades a pedido del cliente.']},
-    {id:'ej10', title:'Maquinaria pesada: descarga y control para [cliente]', date:'05/06/26', client:'[Cliente a confirmar]', op:'Maquinaria pesada', media:'video', body:['[Texto de ejemplo] Un técnico especializado operó la descarga y verificamos el estado de cada equipo.']},
-    {id:'ej11', title:'Control de stock con registro fotográfico', date:'21/05/26', client:'[Cliente a confirmar]', op:'Control e información de stock', media:'image', body:['[Texto de ejemplo] Informamos stock y respaldamos cada movimiento con fotos.']},
-    {id:'ej12', title:'Preparación de pedidos para [cliente]', date:'08/05/26', client:'[Cliente a confirmar]', op:'Preparación de pedidos', media:'image', body:['[Texto de ejemplo] Armamos retiros parciales para que el cliente tenga stock de pronta entrega.']}
-  ];
-  const ph = (cls, label) => `<div class="ph ${cls}"><span>${label}</span></div>`;
-  function postCard(p){
-    const media = p.media === 'video'
-      ? `<div class="media"><div class="ph r-1610"><div class="play-sm" aria-hidden="true"></div></div></div>`
-      : `<div class="media">${ph('r-1610','Imagen de la operación')}</div>`;
-    return `<a class="post-card" href="#post-${p.id}">${media}
-      <span class="meta">${p.date} · ${p.client}</span>
-      <h3 class="h3">${p.title}</h3>
-      <p class="ex">${p.body[0]}</p>
-      <span class="more" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span>Leer más</span></span></a>`;
-  }
-  document.getElementById('postHome').innerHTML = POSTS.slice(0,3).map(postCard).join('');
-
-  const PER_PAGE = 6, pages = Math.ceil(POSTS.length / PER_PAGE);
-  const postListEl = document.getElementById('postList'), pager = document.getElementById('postPager');
-  function renderPostPage(n, scroll){
-    postListEl.innerHTML = POSTS.slice((n-1)*PER_PAGE, n*PER_PAGE).map(postCard).join('');
-    pager.innerHTML = `<button type="button" data-p="${n-1}" aria-label="Página anterior" ${n===1?'disabled':''}>←</button>`
-      + Array.from({length:pages},(_,k)=>`<button type="button" data-p="${k+1}" aria-label="Página ${k+1}" ${k+1===n?'aria-current="page"':''}>${k+1}</button>`).join('')
-      + `<button type="button" data-p="${n+1}" aria-label="Página siguiente" ${n===pages?'disabled':''}>→</button>`;
-    pager.hidden = pages < 2;
-    if(scroll) scrollTo({top: Math.max(0, postListEl.getBoundingClientRect().top + scrollY - 160)});
-  }
-  pager.addEventListener('click', e => { const b = e.target.closest('button[data-p]'); if(b && !b.disabled) renderPostPage(+b.dataset.p, true); });
-  renderPostPage(1, false);
-
-  function renderPost(id){
-    const i = POSTS.findIndex(p => p.id === id), p = POSTS[i];
-    const prev = POSTS[i-1], next = POSTS[i+1];
-    document.getElementById('postCrumb').textContent = p.title;
-    const facts = `<dl class="post-facts">
-        <div><dt>Cliente</dt><dd>${p.client}</dd></div>
-        <div><dt>Operación</dt><dd>${p.op}</dd></div>
-        ${p.with ? `<div><dt>Junto a</dt><dd>${p.with}</dd></div>` : ''}
-        <div><dt>Fecha</dt><dd>${p.date}</dd></div>
-        <div><a class="link-arrow" href="#" target="_blank" rel="noopener noreferrer">Ver en LinkedIn <span aria-hidden="true">↗</span><span class="sr">(se abre en una nueva pestaña)</span></a></div>
-      </dl>`;
-    const text = `<div class="post-text">${p.body.map(t => `<p>${t}</p>`).join('')}</div>`;
-    const body = p.media === 'video'
-      ? `<div class="post-cols video">
-           <div class="ph r-916" role="img" aria-label="Reel (placeholder vertical)"><div class="ph-play" aria-hidden="true"></div><span style="position:absolute; bottom:12px">Reel · video vertical</span></div>
-           <div style="display:grid; gap:32px">${text}${facts}</div></div>`
-      : `${ph('r-169','Imagen principal de la operación')}
-         <div class="post-cols"><div>${facts}</div>${text}</div>`;
-    document.getElementById('postDetail').innerHTML = `
-      <span class="post-meta">${p.date} · ${p.client}</span>
-      <h1 class="h1">${p.title}</h1>
-      ${body}
-      <nav class="post-nav" aria-label="Otras operaciones">
-        ${prev ? `<a href="#post-${prev.id}"><small>← Anterior</small><strong>${prev.title}</strong></a>` : '<span></span>'}
-        ${next ? `<a class="next" href="#post-${next.id}"><small>Siguiente →</small><strong>${next.title}</strong></a>` : '<span></span>'}
-      </nav>`;
-  }
-
-  /* ---------- Router por hash ---------- */
-  const PAGES = ['inicio','zona-franca','documentacion','en-accion'];
-  const navLinks = document.querySelectorAll('[data-route]');
-  function route(){
-    const h = decodeURIComponent(location.hash.slice(1)) || 'inicio';
-    let page = 'inicio', target = null;
-    const postId = h.startsWith('post-') ? h.slice(5) : null;
-    if(postId && POSTS.some(p => p.id === postId)){ page = 'post'; renderPost(postId); }
-    else if(PAGES.includes(h)) page = h; else target = h;
-    // anclas internas de otras páginas (ej. #zf-que) viven en su página
-    const el = target && document.getElementById(target);
-    if(el){ const host = el.closest('.page'); if(host) page = host.id.replace('page-',''); }
-    document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.id === 'page-' + page));
-    navLinks.forEach(a => a.closest('.nav-main, .drawer') && (a.dataset.route === page ? a.setAttribute('aria-current','page') : a.removeAttribute('aria-current')));
-    const titles = {inicio:'Inicio','zona-franca':'Zona Franca',documentacion:'Documentación','en-accion':'En acción',post:(POSTS.find(p => 'post-'+p.id === h) || {}).title || 'En acción'};
-    document.title = `${titles[page]} · Trade Up (wireframe)`;
-    if(el) el.scrollIntoView(); else window.scrollTo(0,0);
-    closeMenus();
-    spyUpdate();
-  }
-  addEventListener('hashchange', route);
-
-  /* ---------- Servicios: las cards tapadas retroceden (escala + tono) ---------- */
-  const svcCards = [...document.querySelectorAll('.svc-panel')];
-  let svcRaf = 0;
-  function svcDepth(){
-    const hh = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 68;
-    const stuck = svcCards.map(c => c.getBoundingClientRect().top <= parseFloat(getComputedStyle(c).top) + 1);
-    svcCards.forEach((c,i) => c.style.setProperty('--k', stuck.slice(i+1).filter(Boolean).length));
-  }
-  addEventListener('scroll', () => { cancelAnimationFrame(svcRaf); svcRaf = requestAnimationFrame(svcDepth); }, {passive:true});
-  addEventListener('resize', svcDepth);
-
-  /* ---------- Cierre de menús ---------- */
-  function closeMenus(){ if(drawer.open) drawer.close(); }
-
-  /* ---------- Idioma ES / EN (solo UI en el wireframe; sin traducción) ---------- */
-  document.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => {
-    document.querySelectorAll('.lang button').forEach(x => x.setAttribute('aria-pressed', x === b));
-    document.documentElement.lang = b.dataset.lang;
-  }));
-
-  /* ---------- Menú móvil (dialog) ---------- */
-  const drawer = document.getElementById('drawer');
-  document.getElementById('menuOpen').addEventListener('click', () => drawer.showModal());
-  document.getElementById('menuClose').addEventListener('click', () => drawer.close());
-  drawer.addEventListener('click', e => { if(e.target === drawer) drawer.close(); });
-  drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => drawer.close()));
-
-  /* ---------- Indicador de sección (Servicios / Nosotros) en nav ---------- */
-  const spyTargets = [['servicios','#servicios'],['nosotros','#nosotros']];
-  const svcBtn = document.getElementById('svcLink');
-  function spyUpdate(){
-    const onHome = document.getElementById('page-inicio').classList.contains('active');
-    svcBtn.removeAttribute('aria-current');
-    if(!onHome) return;
-    const y = innerHeight * .4;
-    const s = document.getElementById('servicios').getBoundingClientRect();
-    if(s.top < y && s.bottom > y) svcBtn.setAttribute('aria-current','true');
-  }
-
-  /* ---------- Índice lateral (páginas internas) ---------- */
-  const asideLinks = document.querySelectorAll('.aside a');
-  function asideSpy(){
-    let cur = null;
-    asideLinks.forEach(a => { const s = document.querySelector(a.getAttribute('href')); if(s && s.getBoundingClientRect().top < innerHeight*.35) cur = a; });
-    asideLinks.forEach(a => a === cur ? a.setAttribute('aria-current','true') : a.removeAttribute('aria-current'));
-  }
-
-  /* ---------- Línea de tiempo: aparece y se llena al scroll ---------- */
-  const tlItems = document.querySelectorAll('.tl');
-  if('IntersectionObserver' in window){
-    const io = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }), {rootMargin:'0px 0px -20% 0px'});
-    tlItems.forEach(t => io.observe(t));
-  } else tlItems.forEach(t => t.classList.add('in'));
-  const vtl = document.getElementById('vtl'), vtlFill = document.getElementById('vtlFill');
-  function tlProgress(){
-    const r = vtl.getBoundingClientRect(); if(!r.height) return;
-    const p = Math.min(Math.max((innerHeight*.6 - r.top) / r.height, 0), 1);
-    vtlFill.style.height = (p * (r.height - 16)) + 'px';
-  }
-
-
-  /* ---------- Scroll ---------- */
-  const toTop = document.getElementById('toTop');
-  toTop.addEventListener('click', () => scrollTo({top:0}));
-  addEventListener('scroll', () => { toTop.classList.toggle('show', scrollY > 600); spyUpdate(); asideSpy(); tlProgress(); }, {passive:true});
-
-  route();
+<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/tradeup/*"},{"not":{"href_matches":["/tradeup/wp-*.php","/tradeup/wp-admin/*","/tradeup/wp-content/uploads/*","/tradeup/wp-content/*","/tradeup/wp-content/plugins/*","/tradeup/wp-content/themes/tradeup/*","/tradeup/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
 </script>
+<script data-wp-strategy="defer" defer id="tu-main-js" src="./wp-content/themes/tradeup/assets/js/main.js?ver=1.0.0.1791572319"></script>
 </body>
 </html>

@@ -1,0 +1,131 @@
+/*
+ * Trade Up — Componente: BOTONES
+ * Usa solo tokens semánticos de tokens.css. Guía: /design-system/botones.html
+ *
+ * Jerarquía
+ *   .btn                       Primario    (rojo de marca; 1 por zona)
+ *   .btn.btn--secondary        Secundario  (contorno negro)
+ *   .btn.btn--tertiary         Terciario   (texto + subrayado rojo)   <- uso general
+ *   .btn.btn--tertiary-arrow   Terciario con chip de flecha            <- solo navegación destacada
+ * Tamaños: .btn--sm (40px) · base (48px) · .btn--lg (56px)
+ * Sobre fondo oscuro (.cta-band, .on-dark) los colores se adaptan solos.
+ * Deshabilitado: atributo disabled o aria-disabled="true".
+ */
+
+.btn {
+	--btn-radius: 0 0 14px 0;           /* esquina del logo */
+	--btn-bg: var(--color-primary);
+	--btn-fg: var(--color-on-primary);
+	--btn-border: var(--color-primary);
+	--btn-bg-hover: var(--color-primary-hover);
+	--btn-fg-hover: var(--color-on-primary);
+	--btn-border-hover: var(--color-primary-hover);
+
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	min-height: 48px;
+	padding: 0 26px;
+	border: 2px solid var(--btn-border);
+	border-radius: var(--btn-radius);
+	background: var(--btn-bg);
+	color: var(--btn-fg);
+	font: 700 15px/1 var(--font);
+	text-decoration: none;
+	cursor: pointer;
+	transition: background-color .2s, color .2s, border-color .2s, box-shadow .2s;
+}
+.btn:hover { background: var(--btn-bg-hover); color: var(--btn-fg-hover); border-color: var(--btn-border-hover); }
+.btn:active { background: var(--color-primary-active); border-color: var(--color-primary-active); color: var(--color-on-primary); }
+.btn:focus-visible { outline: 3px solid var(--color-focus); outline-offset: 3px; border-radius: var(--btn-radius); }
+.btn svg { width: 18px; height: 18px; flex: none; transition: transform .25s; }
+.btn:hover svg { transform: translateX(4px); }
+
+.btn--sm { min-height: 40px; padding: 0 18px; font-size: 14px; --btn-radius: 0 0 10px 0; }
+.btn--lg { min-height: 56px; padding: 0 32px; font-size: 16px; --btn-radius: 0 0 18px 0; }
+
+/* ---------- Secundario ---------- */
+.btn--secondary {
+	--btn-bg: transparent;
+	--btn-fg: var(--color-text);
+	--btn-border: var(--color-neutral-900);
+	--btn-bg-hover: var(--color-neutral-900);
+	--btn-fg-hover: var(--color-white);
+	--btn-border-hover: var(--color-neutral-900);
+}
+.btn--secondary:active { background: var(--color-neutral-800); border-color: var(--color-neutral-800); color: var(--color-white); }
+
+/* ---------- Terciario ---------- */
+.btn--tertiary {
+	--btn-bg: transparent;
+	--btn-fg: var(--color-text);
+	--btn-bg-hover: transparent;
+	--btn-fg-hover: var(--color-text-accent);
+	min-height: 44px;
+	padding: 0 2px;
+	border: 0;
+	border-radius: 0;
+	box-shadow: inset 0 -2px 0 var(--color-primary);
+}
+.btn--tertiary:hover { background: transparent; box-shadow: inset 0 -4px 0 var(--color-primary); }
+.btn--tertiary:active { background: transparent; color: var(--color-primary-active); }
+.btn--tertiary:focus-visible { border-radius: 0; }
+
+/* ---------- Terciario con flecha ---------- */
+.btn--tertiary-arrow {
+	--btn-bg: transparent;
+	--btn-fg: var(--color-text);
+	--btn-bg-hover: transparent;
+	--btn-fg-hover: var(--color-text);
+	min-height: 44px;
+	padding: 0;
+	gap: 12px;
+	border: 0;
+	border-radius: 0;
+}
+.btn--tertiary-arrow .ar {
+	display: grid;
+	place-items: center;
+	width: 36px;
+	height: 36px;
+	background: var(--color-primary);
+	color: var(--color-white);
+	border-radius: 0 0 11px 0;
+	transition: background-color .2s;
+}
+.btn--tertiary-arrow:hover { background: transparent; }
+.btn--tertiary-arrow:hover .ar { background: var(--color-primary-hover); }
+.btn--tertiary-arrow:active { background: transparent; color: var(--color-text); }
+.btn--tertiary-arrow:focus-visible { border-radius: 0; }
+
+/* ---------- Deshabilitado ---------- */
+.btn[disabled],
+.btn[aria-disabled="true"] {
+	background: var(--color-neutral-200);
+	border-color: var(--color-neutral-200);
+	color: var(--color-neutral-500);
+	cursor: not-allowed;
+	pointer-events: none;
+}
+.btn--secondary[disabled], .btn--secondary[aria-disabled="true"] { background: transparent; border-color: var(--color-neutral-300); }
+.btn--tertiary[disabled], .btn--tertiary[aria-disabled="true"],
+.btn--tertiary-arrow[disabled], .btn--tertiary-arrow[aria-disabled="true"] { background: transparent; box-shadow: inset 0 -2px 0 var(--color-neutral-300); }
+.btn--tertiary-arrow[disabled] .ar, .btn--tertiary-arrow[aria-disabled="true"] .ar { background: var(--color-neutral-300); }
+
+/* ---------- Sobre fondo oscuro ---------- */
+.cta-band .btn:focus-visible, .on-dark .btn:focus-visible { outline-color: var(--color-focus-inverse); }
+.cta-band .btn--secondary, .on-dark .btn--secondary {
+	--btn-fg: var(--color-white);
+	--btn-border: var(--color-white);
+	--btn-bg-hover: var(--color-white);
+	--btn-fg-hover: var(--color-neutral-900);
+	--btn-border-hover: var(--color-white);
+}
+.cta-band .btn--secondary:active, .on-dark .btn--secondary:active { background: var(--color-neutral-100); color: var(--color-neutral-900); border-color: var(--color-neutral-100); }
+.cta-band .btn--tertiary, .on-dark .btn--tertiary { --btn-fg: var(--color-white); --btn-fg-hover: var(--color-red-200); box-shadow: inset 0 -2px 0 var(--color-red-400); }
+.cta-band .btn--tertiary:hover, .on-dark .btn--tertiary:hover { box-shadow: inset 0 -4px 0 var(--color-red-400); }
+.cta-band .btn--tertiary-arrow, .on-dark .btn--tertiary-arrow { --btn-fg: var(--color-white); --btn-fg-hover: var(--color-white); }
+
+@media (prefers-reduced-motion: reduce) { .btn, .btn svg, .btn .ar { transition: none; } }
+@media (forced-colors: active) { .btn { border: 2px solid ButtonText; } }

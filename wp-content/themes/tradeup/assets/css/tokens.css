@@ -1,0 +1,82 @@
+/*
+ * Trade Up — Design tokens: COLOR
+ * Fuente de verdad. Dos capas:
+ *   1) Primitivos  --color-<familia>-<paso>   (valores crudos; no se usan directo en componentes)
+ *   2) Semánticos  --color-<rol>              (lo que usan los componentes; apuntan a primitivos)
+ * Para cambiar el tema o un color de marca se edita SOLO este archivo.
+ * Guía visual y contrastes: /wp-content/themes/tradeup/design-system/
+ */
+
+:root {
+	/* ---------- 1 · PRIMITIVOS ---------- */
+
+	/* Marca (valores oficiales del brandbook) */
+	--color-white:       #FFFFFF; /* RGB 255 255 255 */
+	--color-red-600:     #D22538; /* RGB 210 37 56  — rojo de marca */
+	--color-neutral-900: #1D1D1B; /* RGB 29 29 27   — negro de marca */
+
+	/* Rojo: tintes hacia blanco (50–500) y sombras hacia rojo oscuro (700–900) */
+	--color-red-50:  #FCF0F1;
+	--color-red-100: #F8DCDF;
+	--color-red-200: #F2BEC3;
+	--color-red-300: #E9969F;
+	--color-red-400: #DF6270;
+	--color-red-500: #D63B4C;
+	--color-red-700: #AD1E2E;
+	--color-red-800: #8B1826;
+	--color-red-900: #69121D;
+
+	/* Neutros cálidos derivados del negro de marca */
+	--color-neutral-50:  #F6F6F6;
+	--color-neutral-100: #EDEDED;
+	--color-neutral-200: #DBDBDB;
+	--color-neutral-300: #C0C0BF;
+	--color-neutral-400: #8F8F8E;
+	--color-neutral-500: #6B6B6A;
+	--color-neutral-600: #565655;
+	--color-neutral-700: #434342;
+	--color-neutral-800: #313130;
+
+	/* ---------- 2 · SEMÁNTICOS ---------- */
+
+	/* Superficies */
+	--color-bg:              var(--color-white);
+	--color-surface:         var(--color-neutral-50);   /* secciones alternas, tarjetas */
+	--color-surface-strong:  var(--color-neutral-100);
+	--color-surface-inverse: var(--color-neutral-900);  /* bandas oscuras (CTA, stats) */
+	--color-surface-accent:  var(--color-red-50);
+
+	/* Texto */
+	--color-text:            var(--color-neutral-900);
+	--color-text-muted:      var(--color-neutral-600);  /* secundario; AA sobre bg y surface */
+	--color-text-inverse:    var(--color-white);
+	--color-text-inverse-muted: var(--color-neutral-300);
+	--color-text-accent:     var(--color-red-600);      /* texto/enlaces rojos sobre claro */
+
+	/* Acción primaria (botones, énfasis) */
+	--color-primary:         var(--color-red-600);
+	--color-primary-hover:   var(--color-red-700);
+	--color-primary-active:  var(--color-red-800);
+	--color-on-primary:      var(--color-white);
+
+	/* Acción neutra (botón oscuro del wireframe) */
+	--color-action:          var(--color-neutral-900);
+	--color-action-hover:    var(--color-neutral-800);
+	--color-on-action:       var(--color-white);
+
+	/* Bordes (los de controles de formulario deben cumplir 3:1 → WCAG 1.4.11) */
+	--color-border:          var(--color-neutral-200);  /* decorativo: divisores, tarjetas */
+	--color-border-control:  var(--color-neutral-400);  /* inputs, checkboxes */
+	--color-border-strong:   var(--color-neutral-900);
+
+	/* Foco (visible sobre claro y sobre oscuro) */
+	--color-focus:           var(--color-neutral-900);
+	--color-focus-inverse:   var(--color-white);
+
+	/* Estado */
+	--color-error:           var(--color-red-700);      /* 7:1 sobre blanco */
+	--color-error-bg:        var(--color-red-50);
+
+	/* Overlay (backdrop del menú móvil) */
+	--color-overlay:         rgb(29 29 27 / 0.5);
+}

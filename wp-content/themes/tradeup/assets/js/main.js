@@ -188,7 +188,7 @@
 	} else if (statsSec) { revealStats(); }
 
 	/* ---------- Secciones que se descubren por detrás de la anterior (con parallax) ---------- */
-	var reveals = [['#servicios', '#en-accion-home', 0.9], ['#mercosur', '#zflp', 0.5], ['#faq', '#contacto', 0.4], ['#zf-que-sec', '.zf-hist', 0.5], ['#doc-pre', '#doc-operar', 0.5], ['.zf-hist', '.page-end', 0.5]].map(function (p) {
+	var reveals = [['.hero-stage', '#nosotros', 0.5], ['#servicios', '#en-accion-home', 0.9], ['#mercosur', '#zflp', 0.5], ['#faq', '#contacto', 0.4], ['#zf-que-sec', '.zf-hist', 0.5], ['#doc-pre', '#doc-operar', 0.5], ['.zf-hist', '.page-end', 0.5]].map(function (p) {
 		return { over: $(p[0]), under: $(p[1]), span: p[2] }; /* span: tramo de pantalla (fracción del alto) en el que se completa el parallax */
 	}).filter(function (p) { return p.over && p.under; });
 	function accReveal() {
@@ -256,12 +256,23 @@
 		var h = Math.max(0, Math.min(d * 1.6, cb.bottom - tb.bottom));
 		faqTitle.style.setProperty('--fg', h.toFixed(1) + 'px');
 	}
+	/* ---------- Nosotros (tablet/mobile): el video interno se desplaza con el scroll (parallax) y el contenido lo tapa un poco ---------- */
+	var nosSec = $('#nosotros'), nosVid = nosSec && $('.split > .video-frame', nosSec);
+	var nosMQ = window.matchMedia('(max-width:820px) and (prefers-reduced-motion:no-preference)');
+	function nosParallax() {
+		if (!nosVid) { return; }
+		if (!nosMQ.matches) { nosVid.style.removeProperty('--np'); nosSec.style.removeProperty('--nt'); return; }
+		var vh = window.innerHeight, h = nosVid.offsetHeight, top = nosVid.getBoundingClientRect().top;
+		var p = Math.max(0, Math.min(1, (vh - top) / (vh + h))); /* 0: entra por abajo, 1: sale por arriba */
+		nosVid.style.setProperty('--np', ((p - 0.5) * 0.6 * h).toFixed(1) + 'px'); /* ±30% del alto del marco */
+		nosSec.style.setProperty('--nt', Math.max(0, Math.min(1, (vh * 0.45 - top) / (vh * 0.45))).toFixed(3)); /* 0 → 1 cuando el video ya se reveló y sigue subiendo: el contenido sube hasta --nmax px y vuelve a taparlo */
+	}
 	var raf = 0;
 	function onScroll() {
 		if (toTop) { toTop.classList.toggle('show', window.scrollY > 600); }
 		if (header) { header.classList.toggle('is-scrolled', window.scrollY > 24); }
 		if (raf) { return; }
-		raf = requestAnimationFrame(function () { raf = 0; depth(); spy(); progress(); headerTone(); headerRide(); checkMask(); accReveal(); svcParallax(); footReveal(); faqGrow(); });
+		raf = requestAnimationFrame(function () { raf = 0; depth(); spy(); progress(); headerTone(); headerRide(); checkMask(); accReveal(); svcParallax(); footReveal(); faqGrow(); nosParallax(); });
 	}
 	window.addEventListener('scroll', onScroll, { passive: true });
 	window.addEventListener('resize', onScroll);

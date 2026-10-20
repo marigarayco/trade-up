@@ -67,6 +67,8 @@ Text Domain: tradeup
   .sec-head .h2{margin-bottom:12px;}
   .split{display:grid; grid-template-columns:1fr 1fr; gap:clamp(28px,5vw,72px); align-items:center;}
   @media (max-width:820px){ .split{grid-template-columns:1fr;} }
+  /* Nosotros: en 2 columnas el video estira hasta el alto de la columna de texto (el aspect-ratio queda como mínimo) */
+  @media (min-width:821px){ #nosotros .split{align-items:stretch;} #nosotros .split > .video-frame{align-self:stretch; height:auto; width:100%; min-width:0; max-width:100%;} #nosotros .split > .video-frame video,#nosotros .split > .video-frame iframe{object-fit:cover; object-position:center;} }
 
   /* ============ HEADER / NAV ============ */
   .site-header{position:sticky; top:0; z-index:100; background:color-mix(in srgb, var(--g-0) 86%, transparent); -webkit-backdrop-filter:saturate(160%) blur(14px); backdrop-filter:saturate(160%) blur(14px); border-bottom:1px solid var(--g-3);}
@@ -142,29 +144,30 @@ Text Domain: tradeup
 
   /* Stats */
   /* Stats: bloques en grises que se superponen, cada uno con la esquina del logo */
-  .stats{--r:clamp(40px,6vw,80px); display:flex; isolation:isolate;}
+  .stats{--r:clamp(40px,6vw,80px); display:grid; grid-auto-flow:column; grid-auto-columns:1fr; grid-template-rows:1fr auto; isolation:isolate;} /* fila 1: número, fila 2: texto con línea (subgrid: las líneas quedan a la misma altura) */
   .stats-sec .stat{clip-path:inset(0 100% 0 0); transition:clip-path .9s cubic-bezier(.65,0,.2,1);}
   .stats-sec .stat:nth-child(2){transition-delay:.18s;}
   .stats-sec .stat:nth-child(3){transition-delay:.36s;}
   .stats-sec.in .stat{clip-path:inset(0);}
   @media (prefers-reduced-motion:reduce){ .stats-sec .stat{clip-path:none; transition:none;} }
-  .stat{flex:1; position:relative; border-radius:0 0 var(--r) 0; padding:clamp(24px,3vw,40px) calc(var(--r) + 16px) clamp(24px,3vw,40px) clamp(24px,3vw,40px); margin-right:calc(var(--r) * -1); display:flex; flex-direction:column; justify-content:space-between; align-items:flex-start; gap:clamp(28px,5vw,64px); min-height:clamp(240px,24vw,320px);}
+  .stat{grid-row:span 2; position:relative; border-radius:0 0 var(--r) 0; padding:clamp(56px,6.2vw,80px) calc(var(--r) + 16px) clamp(24px,3vw,40px) clamp(24px,3vw,40px); margin-right:calc(var(--r) * -1); display:grid; grid-template-rows:subgrid; justify-items:start; align-items:start; row-gap:clamp(14px,1.8vw,24px); min-height:clamp(240px,24vw,320px);}
   .stat:last-child{margin-right:0;}
   .stat:last-child{padding-right:clamp(24px,3vw,40px);}
   .stat:not(:first-child){padding-left:calc(var(--r) + clamp(20px,2.4vw,32px));}
   .stat:nth-child(1){background:var(--g-3); color:var(--g-8); z-index:3;}
   .stat:nth-child(2){background:var(--g-6); color:var(--g-0); z-index:2;}
   .stat:nth-child(3){background:var(--g-8); color:var(--g-0); z-index:1;}
-  .stat b{font-family:var(--mono); font-size:clamp(52px,6.2vw,80px); font-weight:400; letter-spacing:-.04em; line-height:.8;}
+  .stat b{align-self:end; font-family:var(--mono); font-size:clamp(52px,6.2vw,80px); font-weight:400; letter-spacing:-.04em; line-height:.8;}
   .stat b sup{font-size:.28em; letter-spacing:0; vertical-align:top; position:relative; top:.1em; margin-left:4px; font-weight:500;}
   .stat > span{font-size:clamp(14px,1.25vw,16px); line-height:1.45; max-width:30ch; padding-top:16px; border-top:1px solid currentColor; opacity:.9; width:100%;}
   @media (max-width:820px){
-    .stats{flex-direction:column;}
-    .stat{margin-right:0; margin-bottom:calc(var(--r) * -1); padding:24px 24px calc(var(--r) + 20px); min-height:0; flex-direction:row; align-items:flex-end; justify-content:flex-start; gap:16px;}
-    .stat > span{border-top:0; padding:0 0 4px; width:auto; max-width:20ch; font-size:14px;}
-    .stat:last-child{margin-bottom:0; padding-bottom:28px;}
-    .stat:not(:first-child){padding:calc(var(--r) + 20px) 24px 24px;}
-    .stat:not(:last-child){padding-bottom:calc(var(--r) + 20px);}
+    /* Se mantienen las 3 columnas en fila, a menor escala */
+    .stats{--r:clamp(20px,5vw,40px);}
+    .stat{min-height:0; row-gap:12px; padding:36px calc(var(--r) + 10px) 20px 16px;}
+    .stat:last-child{padding-right:16px; border-radius:0;}
+    .stat:not(:first-child){padding-left:calc(var(--r) + 10px);}
+    .stat b{font-size:clamp(30px,8vw,56px);}
+    .stat > span{font-size:clamp(11px,1.9vw,14px); max-width:none; padding-top:10px;}
   }
 
   /* Logos */
@@ -180,13 +183,14 @@ Text Domain: tradeup
 
   /* Servicios: col 1 fija (título) + filas que se apilan al scrollear (sticky) */
   .svc-section{padding-block:var(--section) 0; overflow-x:clip;}
-  .svc-layout{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,3fr); column-gap:0; align-items:start;}
+  .svc-layout{display:grid; grid-template-columns:minmax(clamp(220px,26vw,300px),1fr) minmax(0,3fr); column-gap:0; align-items:start;}
   .svc-head{align-self:stretch; background:var(--g-8); color:var(--g-0); padding:0 calc((100vw - min(1760px, 100vw - 2 * var(--gutter))) / 2) 0 0; position:relative;}
   .svc-head::before{content:""; position:absolute; top:0; bottom:0; right:100%; width:100vw; background:var(--g-8);}
-  .svc-head-in{position:sticky; top:var(--header-h); height:var(--rh); box-sizing:border-box; padding-top:clamp(20px,2.4vw,32px);}
+  .svc-head-in{position:sticky; top:var(--header-h); height:var(--rh); box-sizing:border-box; padding-top:clamp(12px,1.4vw,18px);}
   .svc-head h2{font-size:clamp(26px,3.4vw,40px); line-height:1.15; letter-spacing:-.02em; font-weight:700;}
   .svc-head .lede{margin:16px 0 0; font-size:15px; color:var(--g-3);}
   .svc-layout{--step:64px; --pl:20px; --rh:clamp(380px,62vh,520px);}
+  @media (min-width:821px) and (max-width:1200px){ .svc-layout{--rh:clamp(480px,76vh,640px);} } /* columnas más angostas: el texto necesita más alto */
   .svc-panel::after{content:""; display:block; height:calc(var(--rh) - var(--step));}
   .svc-panel:last-child::after{display:none;}
   .svc-panel:last-child .svc-inner{border-bottom:1px solid var(--g-4);} /* línea inferior de la última card, que sigue por la extensión hasta el borde derecho */
@@ -214,7 +218,12 @@ Text Domain: tradeup
     .svc-stack{--step:52px;}
     .svc-layout{--rh:500px;}
     .svc-inner{grid-template-columns:1fr; row-gap:16px;}
-    .svc-panel .ph{min-height:0; height:180px;}
+    .svc-panel .ph{min-height:0; height:180px; margin:0;}
+    /* El wrap llega a los bordes de la pantalla y las cards no llevan borde izquierdo; el título y el texto conservan el margen lateral */
+    .svc-layout{width:100%;}
+    .svc-head-in{padding-left:var(--gutter);}
+    .svc-inner{border-left:0;}
+    .svc-text{padding-right:var(--gutter);}
   }
   .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:var(--gap);}
   .grid-2{display:grid; grid-template-columns:repeat(2,1fr); gap:var(--gap);}
@@ -338,6 +347,19 @@ Text Domain: tradeup
   .post-card:hover .more::before,.post-card:focus-visible .more::before{opacity:1; transition-delay:.12s;}
   .post-card:hover .more svg,.post-card:focus-visible .more svg{left:calc(100% - 37px);}
   .post-card:hover .more span,.post-card:focus-visible .more span{opacity:1; transition-delay:.12s;}
+  /* Tablet y mobile: no hay hover, el botón se muestra siempre completo */
+  @media (max-width:820px){
+    .post-card .more{width:100%;}
+    .post-card .more::before{opacity:1;}
+    .post-card .more svg{left:calc(100% - 37px);}
+    .post-card .more span{opacity:1;}
+    .grid-3:has(> .post-card){row-gap:clamp(40px,8vw,64px);}
+    /* En acción (home): carrusel con swipe. Tablet: 2 cards por vista; mobile: 1 (con un asomo de la siguiente) */
+    #en-accion-home .grid-3{display:flex; gap:var(--gap); overflow-x:auto; overscroll-behavior-x:contain; scroll-snap-type:x mandatory; scrollbar-width:none; margin-inline:calc(var(--gutter) * -1); padding-inline:var(--gutter); scroll-padding-inline:var(--gutter);}
+    #en-accion-home .grid-3::-webkit-scrollbar{display:none;}
+    #en-accion-home .grid-3 > .post-card{flex:0 0 calc((100% - var(--gap)) / 2); scroll-snap-align:start;}
+  }
+  @media (max-width:600px){ #en-accion-home .grid-3 > .post-card{flex-basis:88%;} }
   .play-sm{position:absolute; width:52px; height:52px; border-radius:50%; background:var(--g-8); display:grid; place-items:center;}
   .play-sm::after{content:""; border-left:14px solid var(--g-0); border-top:9px solid transparent; border-bottom:9px solid transparent; margin-left:4px;}
   .act-head{display:flex; justify-content:space-between; align-items:flex-end; gap:20px; flex-wrap:wrap; margin-bottom:clamp(24px,3vw,40px);}
@@ -372,8 +394,8 @@ Text Domain: tradeup
   .foot-grid li + li{margin-top:8px;}
   .foot-grid a{text-decoration:none; font-size:14px;} .foot-grid a:hover{text-decoration:underline;}
   .foot-base{display:flex; flex-direction:column; gap:6px; margin-top:14px; font-size:13px; color:var(--g-6);}
-  @media (max-width:820px){ .foot-grid{grid-template-columns:1fr;} .foot-brand{order:-1;} }
-  @media (max-width:520px){ .foot-links{grid-template-columns:1fr 1fr;} }
+  @media (max-width:820px){ .foot-grid{grid-template-columns:1fr;} .foot-brand{order:1;} .foot-links{justify-content:space-between;} } /* en 1 columna: arriba los links (repartidos), abajo la marca */
+  @media (max-width:520px){ .foot-links{grid-template-columns:repeat(2,auto);} }
 
   .wa{position:fixed; right:16px; bottom:16px; z-index:90; width:56px; height:56px; display:grid; place-items:center; background:var(--g-8); color:var(--g-0); border-radius:var(--shape-s); border-bottom-right-radius:22px; text-decoration:none; transition:background .2s, transform .2s;}
   .wa:hover{background:var(--g-7); transform:translateY(-2px);}
@@ -424,6 +446,16 @@ Text Domain: tradeup
   .post-text a{text-underline-offset:3px;}
   .prose{max-width:62ch; font-size:1rem;}
   .prose > * + *{margin-top:1em;}
+  /* Nosotros en 1 columna: el video es una franja a sangre, a modo de divisor de sección */
+  @media (max-width:820px){
+    #nosotros{padding-top:0; --nov:clamp(48px,13vw,104px); --ngap:clamp(28px,5vw,72px); --nmax:clamp(72px,24vw,200px); padding-bottom:max(0px,calc(var(--section) - var(--nmax))); overflow:clip;}
+    /* El contenido sube y tapa un poco el video (a sangre, para cubrir también los costados). El video interno es más alto que el marco y se desplaza con el scroll (parallax, ver main.js) */
+    #nosotros .split > .video-frame video,#nosotros .split > .video-frame iframe{inset:auto; top:-30%; height:160%; transform:translate3d(0,var(--np,0px),0); will-change:transform;}
+    #nosotros .split > :last-child{transform:translate3d(0,calc(var(--nt,0) * var(--nmax) * -1),0); will-change:transform; position:relative; z-index:1; margin-top:calc((var(--nov) + var(--ngap)) * -1); padding-top:calc(var(--nov) + clamp(12px,3vw,20px));}
+    #nosotros .split > :last-child::before{content:""; position:absolute; z-index:-1; inset:0 calc(var(--gutter) * -1); background:var(--g-0);}
+    #nosotros .prose{max-width:none;}
+    #nosotros .split > .video-frame{--shape-l:0px; border-radius:0; aspect-ratio:auto; height:clamp(240px,56vw,420px); margin-inline:calc(var(--gutter) * -1);}
+  }
   .tl p + p{margin-top:10px;}
   .doc-note a{text-underline-offset:3px;}
   .muted a{text-underline-offset:3px;}
@@ -559,6 +591,7 @@ Text Domain: tradeup
   #zflp .wrap{width:100%;}
   #zflp .teaser{border:0; border-radius:0; min-height:clamp(360px,36vw,520px);}
   #zflp .teaser .ph{min-height:100%;}
+  @media (max-width:820px){ #zflp .teaser{min-height:0;} #zflp .teaser .ph{min-height:0; height:clamp(260px,62vw,460px);} } /* 1 columna: el 100% no tiene referencia, se da un alto propio a la imagen */
   #zflp .teaser-body{padding-inline:max(var(--gutter),calc((100vw - 1760px) / 2 + var(--gutter)));}
 
   /* FAQ: hover/foco en rojo de marca, transición lenta (texto y ícono +/–) */
@@ -704,6 +737,12 @@ Text Domain: tradeup
     section.sec#zflp{padding-top:var(--ov);} /* a sangre: sin relleno propio, solo el solape */
     #en-accion-home > .wrap,#zflp > .wrap,#contacto > .wrap{transform:translate3d(0,calc((1 - var(--er,1)) * var(--ov) * -1.2),0); will-change:transform;}
   }
+  /* Tablet y mobile: Nosotros se descubre por detrás del hero (con las stats) al subir, igual que Zona Franca bajo Mercosur */
+  @media (max-width:820px) and (prefers-reduced-motion:no-preference){
+    .hero-stage{z-index:2;}
+    section.sec#nosotros{--ov:clamp(120px,22vh,240px); position:relative; z-index:1; background:var(--g-0); margin-top:calc(var(--ov) * -1); padding-top:var(--ov);}
+    #nosotros > .wrap{transform:translate3d(0,calc((1 - var(--er,1)) * var(--ov) * -1.2),0); will-change:transform;}
+  }
   /* Datos de contacto: ícono y dato en la misma fila */
   .contact-dark .contact-list{gap:0;}
   .contact-dark .contact-list > div{display:flex; align-items:stretch; gap:0; border:1px solid var(--g-7);}
@@ -758,6 +797,12 @@ Text Domain: tradeup
   .contact-dark form.contact .send:hover svg,.contact-dark form.contact .send:focus-visible svg{left:calc(100% - 37px);}
   .contact-dark form.contact .send:hover span,.contact-dark form.contact .send:focus-visible span{opacity:1; transition-delay:.12s;}
   .contact-dark form.contact .send:focus-visible{outline:2px solid var(--g-0); outline-offset:3px;}
+  /* Tablet y mobile: no hay hover, el botón se muestra siempre extendido y con el texto */
+  @media (max-width:820px){
+    .contact-dark form.contact .send{width:100%; background:var(--color-primary); border-color:var(--color-primary);}
+    .contact-dark form.contact .send svg{left:calc(100% - 37px);}
+    .contact-dark form.contact .send span{opacity:1;}
+  }
   @media (prefers-reduced-motion:reduce){ .contact-dark form.contact .send,.contact-dark form.contact .send svg,.contact-dark form.contact .send span{transition:none;} }
 
   .contact-dark form.contact .send{margin-top:0;}
@@ -769,6 +814,15 @@ Text Domain: tradeup
   #faq .faq-title{padding-left:var(--bleed);}
 
   #faq .faq-title{border-bottom:1px solid var(--g-3);}
+
+  /* FAQ en tablet y mobile: todo el ancho de la pantalla, sin gap entre título y listado y sin bordes laterales */
+  @media (max-width:820px){
+    #faq{--bleed:0px;}
+    #faq > .wrap{width:100%; gap:0;}
+    #faq .faq-title{margin-left:0; padding-inline:var(--gutter);}
+    #faq .faq{margin-right:0;}
+    #faq .faq details{border-left:0; border-right:0;}
+  }
 
   /* Zona Franca: la banda de cierre ocupa todo el ancho y queda sobre el footer, que se revela por debajo (como el contacto del inicio) */
   body.page-template-page-zona-franca main > .page-end,body.page-template-page-documentacion main > .page-end{padding-bottom:0;}
@@ -825,7 +879,7 @@ Text Domain: tradeup
   .zf-hist .tl-kicker{font-family:var(--mono); color:var(--g-0); opacity:.7; font-size:clamp(18px,2vw,30px); letter-spacing:-.02em; margin:0 0 12px;}
   .zf-hist .tl h3{font-size:clamp(24px,3vw,38px); letter-spacing:-.03em; margin-bottom:12px; color:var(--g-5); transition:color .4s;}
   .zf-hist .tl.hit h3{color:var(--g-0);} /* el año se enciende cuando llega la línea */
-  .zf-hist .tl p{color:var(--g-3); font-size:clamp(15px,1.4vw,17px); margin-left:auto; opacity:0; transition:opacity .5s;}
+  .zf-hist .tl p{color:var(--g-3); font-size:clamp(15px,1.4vw,17px); margin-left:auto; opacity:0; transition:opacity .5s; text-wrap:balance;}
   .zf-hist .tl.hit p{opacity:1;}
   .zf-hist .tl p.tl-kicker{opacity:.7;} /* la etiqueta pequeña también es un <p>; queda como estaba */
   /* La etiqueta (p. ej. "Sus comienzos") va arriba del título, pegada al borde de su columna (el estilo base la dejaba a la izquierda) */
@@ -1139,3 +1193,7 @@ body.page-template-page-en-accion .site-header{position:fixed; inset:0 0 auto 0;
   .op-cols.has-video.is-landscape > .op-video{position:static;}
   .op-cols.has-video.is-landscape .op-main{grid-template-columns:minmax(0,1.6fr) minmax(240px,1fr); align-items:start; gap:clamp(32px,6vw,96px);}
   @media (max-width:900px){ .op-cols.has-video.is-landscape .op-main{grid-template-columns:1fr;} }
+
+  /* Tira de logos: todos en silueta de un único gris (filtro #tu-mono de la home); al pasar el mouse recuperan su color */
+  .logos-strip .logos img{filter:url(#tu-mono); mix-blend-mode:multiply; opacity:.5;}
+  .logos-strip .logos li:hover img,.logos-strip .logos a:focus-visible img{filter:none; mix-blend-mode:normal; opacity:1;}

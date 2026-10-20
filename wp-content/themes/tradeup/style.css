@@ -223,6 +223,11 @@ Text Domain: tradeup
     .svc-layout{width:100%;}
     .svc-head-in{padding-left:var(--gutter);}
     .svc-inner{border-left:0;}
+    .svc-panel.svc-anim .ph img{transform:none; will-change:auto;} /* sin zoom ligado al scroll */
+    /* Apilado sin empuje: el sticky pasa al panel (su contenedor es toda la pila), así la card fija no se mueve cuando llega la siguiente; antes, con margen negativo, el panel anterior la empujaba hacia arriba al terminar su tramo */
+    .svc-panel{position:sticky; top:var(--header-h); height:var(--rh);}
+    .svc-panel::after{display:none;}
+    .svc-inner{position:relative; top:auto; height:100%; margin-bottom:0;}
     .svc-text{padding-right:var(--gutter);}
   }
   .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:var(--gap);}
@@ -395,7 +400,13 @@ Text Domain: tradeup
   .foot-grid a{text-decoration:none; font-size:14px;} .foot-grid a:hover{text-decoration:underline;}
   .foot-base{display:flex; flex-direction:column; gap:6px; margin-top:14px; font-size:13px; color:var(--g-6);}
   @media (max-width:820px){ .foot-grid{grid-template-columns:1fr;} .foot-brand{order:1;} .foot-links{justify-content:space-between;} } /* en 1 columna: arriba los links (repartidos), abajo la marca */
-  @media (max-width:520px){ .foot-links{grid-template-columns:repeat(2,auto);} }
+  /* Mobile: 2 columnas; una con todo el sitemap (los dos menús seguidos) y otra con contacto y LinkedIn */
+  @media (max-width:520px){
+    .foot-links{grid-template-columns:repeat(2,auto); row-gap:0;}
+    .foot-links > .foot-nav{grid-column:1;}
+    .foot-links > .foot-nav + .foot-nav{margin-top:8px;}
+    .foot-links > .foot-contact{grid-column:2; grid-row:1 / span 2;}
+  }
 
   .wa{position:fixed; right:16px; bottom:16px; z-index:90; width:56px; height:56px; display:grid; place-items:center; background:var(--g-8); color:var(--g-0); border-radius:var(--shape-s); border-bottom-right-radius:22px; text-decoration:none; transition:background .2s, transform .2s;}
   .wa:hover{background:var(--g-7); transform:translateY(-2px);}
@@ -1197,3 +1208,9 @@ body.page-template-page-en-accion .site-header{position:fixed; inset:0 0 auto 0;
   /* Tira de logos: todos en silueta de un único gris (filtro #tu-mono de la home); al pasar el mouse recuperan su color */
   .logos-strip .logos img{filter:url(#tu-mono); mix-blend-mode:multiply; opacity:.5;}
   .logos-strip .logos li:hover img,.logos-strip .logos a:focus-visible img{filter:none; mix-blend-mode:normal; opacity:1;}
+
+  /* CTA band en tablet y mobile: en columna, el contenido arriba y los botones abajo (al final al ser alta) */
+  @media (max-width:820px){
+    body[class] .cta-band{flex-direction:column; flex-wrap:wrap; justify-content:space-between; align-items:flex-start; gap:28px;}
+    body[class] .cta-band .btn-row{margin-left:0; flex:none; align-items:flex-start;}
+  }

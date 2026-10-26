@@ -82,6 +82,8 @@ Text Domain: tradeup
   .nav-main [aria-current="page"], .nav-main [aria-current="true"]{color:var(--g-8); font-weight:650; box-shadow:inset 0 -3px 0 var(--accent); border-radius:0;}
   .nav-main li{position:relative;}
   .header-cta{display:flex; align-items:center; gap:10px;}
+  .lang-switch{display:inline-grid; place-items:center; min-width:44px; height:44px; padding:0 10px; border:1.5px solid var(--g-8); border-radius:var(--radius); font-size:13px; font-weight:700; letter-spacing:.08em; text-decoration:none; color:var(--g-8);}
+  .lang-switch:hover{text-decoration:underline; text-underline-offset:4px;}
   .lang{display:flex; border:1.5px solid var(--g-4); border-radius:0; overflow:hidden;}
   .lang button{min-width:40px; min-height:36px; border:0; background:transparent; font:600 12px/1 var(--font); letter-spacing:.06em; color:var(--g-6); cursor:pointer;}
   .lang button + button{border-left:1.5px solid var(--g-4);}
@@ -129,7 +131,7 @@ Text Domain: tradeup
   .hero-bg-sticky .hero-img > span{display:none;}
   .hero-bg-sticky .hero-video{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:grayscale(1);}
   @media (prefers-reduced-motion:reduce){ .hero-bg-sticky .hero-video{display:none;} }
-  .hero-bg-sticky::after{content:""; position:absolute; inset:0; z-index:1; pointer-events:none; background:linear-gradient(90deg, rgb(29 29 27 / .86) 0%, rgb(29 29 27 / .55) 55%, rgb(29 29 27 / .2) 100%), linear-gradient(0deg, rgb(29 29 27 / .75), transparent 95%);}
+  .hero-bg-sticky::after{content:""; position:absolute; inset:0; z-index:1; pointer-events:none; background:linear-gradient(90deg, rgb(49 49 48 / .86) 0%, rgb(49 49 48 / .55) 55%, rgb(49 49 48 / .2) 100%), linear-gradient(0deg, rgb(49 49 48 / .75), transparent 95%);}
   .hero-inner{display:grid; width:min(1760px,100% - 2 * var(--gutter));}
   .hero-row{display:grid; grid-template-columns:1.55fr 1fr; align-items:end; gap:clamp(20px,3vw,48px);}
   .hero-msg{padding:0; display:flex; flex-direction:column; justify-content:center; gap:24px;}
@@ -184,8 +186,8 @@ Text Domain: tradeup
   /* Servicios: col 1 fija (título) + filas que se apilan al scrollear (sticky) */
   .svc-section{padding-block:var(--section) 0; overflow-x:clip;}
   .svc-layout{display:grid; grid-template-columns:minmax(clamp(220px,26vw,300px),1fr) minmax(0,3fr); column-gap:0; align-items:start;}
-  .svc-head{align-self:stretch; background:var(--g-8); color:var(--g-0); padding:0 calc((100vw - min(1760px, 100vw - 2 * var(--gutter))) / 2) 0 0; position:relative;}
-  .svc-head::before{content:""; position:absolute; top:0; bottom:0; right:100%; width:100vw; background:var(--g-8);}
+  .svc-head{align-self:stretch; background:var(--g-7); color:var(--g-0); padding:0 calc((100vw - min(1760px, 100vw - 2 * var(--gutter))) / 2) 0 0; position:relative;}
+  .svc-head::before{content:""; position:absolute; top:0; bottom:0; right:100%; width:100vw; background:var(--g-7);}
   .svc-head-in{position:sticky; top:var(--header-h); height:var(--rh); box-sizing:border-box; padding-top:clamp(12px,1.4vw,18px);}
   .svc-head h2{font-size:clamp(26px,3.4vw,40px); line-height:1.15; letter-spacing:-.02em; font-weight:700;}
   .svc-head .lede{margin:16px 0 0; font-size:15px; color:var(--g-3);}
@@ -278,7 +280,7 @@ Text Domain: tradeup
   .contact-list dt{font-size:12px; text-transform:uppercase; letter-spacing:.08em; color:var(--g-6);}
 
   /* CTA final */
-  .cta-band{background:var(--g-8); color:var(--g-0); border-radius:var(--shape-l); padding:clamp(32px,6vw,72px); display:flex; justify-content:space-between; align-items:center; gap:28px; flex-wrap:wrap;}
+  .cta-band{background:var(--g-7); color:var(--g-0); border-radius:var(--shape-l); padding:clamp(32px,6vw,72px); display:flex; justify-content:space-between; align-items:center; gap:28px; flex-wrap:wrap;}
   .cta-band p{color:var(--g-4);}
 
   /* Page header (internas) */
@@ -436,7 +438,7 @@ Text Domain: tradeup
   /* Título de FAQ: el fondo negro se pinta de izquierda a derecha y el texto pasa de negro a blanco en el mismo borde */
   #faq .faq-title.paint-lr.is-masked{
     color:transparent; -webkit-text-fill-color:transparent;
-    background:linear-gradient(90deg, var(--g-0) calc(var(--rv,0) * 100%), var(--g-8) calc(var(--rv,0) * 100%)), linear-gradient(90deg, var(--g-8) calc(var(--rv,0) * 100%), transparent calc(var(--rv,0) * 100%));
+    background:linear-gradient(90deg, var(--g-0) calc(var(--rv,0) * 100%), var(--g-8) calc(var(--rv,0) * 100%)), linear-gradient(90deg, var(--g-7) calc(var(--rv,0) * 100%), transparent calc(var(--rv,0) * 100%));
     -webkit-background-clip:text, border-box; background-clip:text, border-box;
   }
   .contact-list dd{margin:4px 0 0;}
@@ -493,11 +495,11 @@ Text Domain: tradeup
   .page-head{background:var(--g-1); border-bottom:0;}
   .page-head .h1{font-size:clamp(38px,5.4vw,76px);}
   .h2{font-size:clamp(30px,4vw,56px);}
-  .cta-band{background:var(--g-8); border-radius:0 0 clamp(48px,8vw,120px) 0; padding:clamp(40px,7vw,104px);}
-  footer{background:var(--g-8); color:var(--g-0); border-top:0; padding-block:clamp(48px,6vw,88px) 28px;}
+  .cta-band{background:var(--g-7); border-radius:0 0 clamp(48px,8vw,120px) 0; padding:clamp(40px,7vw,104px);}
+  footer{background:var(--g-7); color:var(--g-0); border-top:0; padding-block:clamp(48px,6vw,88px) 28px;}
   footer .muted,footer .foot-grid h4,footer .foot-base{color:var(--color-text-inverse-muted);}
   footer{padding-top:0;}
-  footer > .wrap{border-top:1px solid var(--g-7); padding-top:clamp(24px,3vw,40px);}
+  footer > .wrap{border-top:1px solid var(--g-6); padding-top:clamp(24px,3vw,40px);}
   footer :focus-visible{outline-color:var(--g-0);}
   .logo-img{filter:none;}
   .wa{background:var(--accent);} .wa:hover{background:var(--accent-hover);}
@@ -511,17 +513,17 @@ Text Domain: tradeup
   body.home .site-header:not(.is-scrolled) .nav-main [aria-current="page"],
   body.home .site-header:not(.is-scrolled) .nav-main [aria-current="true"]{color:var(--g-0);}
   body.home .site-header:not(.is-scrolled) .logo-img{background:var(--g-0); padding:5px 9px; border-radius:8px; height:42px; box-sizing:border-box;}
-  body.home .site-header:not(.is-scrolled) .menu-btn{color:var(--g-0); border-color:var(--g-0);}
+  body.home .site-header:not(.is-scrolled) .menu-btn,body.home .site-header:not(.is-scrolled) .lang-switch{color:var(--g-0); border-color:var(--g-0);}
   body.home .site-header:not(.is-scrolled) :focus-visible{outline-color:var(--g-0);}
 
   /* Home: logo sin fondo (blanco monocromo) y header con blur, sin fondo claro al scrollear */
   body.home .site-header .logo-img,body.home .site-header:not(.is-scrolled) .logo-img{background:none; padding:0; height:34px; border-radius:0; filter:none;}
-  body.home .site-header.is-scrolled{background:rgb(29 29 27 / .35); border-bottom-color:rgb(255 255 255 / .12); -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px);}
+  body.home .site-header.is-scrolled{background:rgb(49 49 48 / .35); border-bottom-color:rgb(255 255 255 / .12); -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px);}
   body.home .site-header .nav-main a,
   body.home .site-header .nav-main [aria-current="page"],
   body.home .site-header .nav-main [aria-current="true"]{color:var(--g-0);}
   body.home .site-header .nav-main a:hover{background:rgb(255 255 255 / .16); color:var(--g-0); border-radius:0;}
-  body.home .site-header .menu-btn{color:var(--g-0); border-color:var(--g-0);}
+  body.home .site-header .menu-btn,body.home .site-header .lang-switch{color:var(--g-0); border-color:var(--g-0);}
   body.home .site-header :focus-visible{outline-color:var(--g-0);}
 
   /* Botones flotantes (WhatsApp / volver arriba): viven en el margen lateral, sin pisar contenido */
@@ -569,7 +571,7 @@ Text Domain: tradeup
   body.home .site-header.on-light .nav-main [aria-current="page"],
   body.home .site-header.on-light .nav-main [aria-current="true"]{color:var(--g-8);}
   body.home .site-header.on-light .nav-main a:hover{background:rgb(29 29 27 / .08); color:var(--g-8); border-radius:0;}
-  body.home .site-header.on-light .menu-btn{color:var(--g-8); border-color:var(--g-8);}
+  body.home .site-header.on-light .menu-btn,body.home .site-header.on-light .lang-switch{color:var(--g-8); border-color:var(--g-8);}
   body.home .site-header.on-light :focus-visible{outline-color:var(--g-8);}
   body.home .site-header.on-svc{background:var(--g-0); border-bottom-color:var(--g-3); -webkit-backdrop-filter:none; backdrop-filter:none;}
   /* Cards de servicios: al entrar en pantalla se traza el borde superior de izquierda a derecha y el título aparece palabra por palabra */
@@ -633,7 +635,7 @@ Text Domain: tradeup
 
   /* FAQ: una vez fijo, el fondo negro del título crece hacia abajo hasta tocar el final de la sección (--fg: alto, lo calcula el JS) */
   @media (min-width:821px){
-    #faq .faq-title::after{content:""; position:absolute; left:0; right:0; top:100%; height:var(--fg,0px); background:var(--g-8); pointer-events:none;}
+    #faq .faq-title::after{content:""; position:absolute; left:0; right:0; top:100%; height:var(--fg,0px); background:var(--g-7); pointer-events:none;}
   }
 
   /* FAQ hover: fondo negro que avanza de izquierda a derecha; la celda del +/– se rellena de rojo */
@@ -677,14 +679,14 @@ Text Domain: tradeup
   @media (max-width:600px){ .faq details > div{padding-left:calc(3.5rem + 20px);} }
 
   /* ============ CONTACTO: fondo negro de marca, campos solo con línea ============ */
-  section.sec.contact-dark{background:var(--g-8); color:var(--g-0); border:0;}
+  section.sec.contact-dark{background:var(--g-7); color:var(--g-0); border:0;}
   .contact-dark .lede{color:var(--g-4);}
   .contact-dark a{text-underline-offset:3px;}
   .contact-dark .contact-list dt{color:var(--g-5); font-family:var(--mono); font-size:13px; letter-spacing:.1em;}
   .contact-dark .contact-list dd a{text-decoration-color:rgba(255,255,255,.35);}
   .contact-dark .contact-list dd a:hover{text-decoration-color:var(--g-0);}
   .contact-dark .muted{color:var(--g-5);}
-  .contact-dark .map-embed{border:1px solid var(--g-7); filter:grayscale(1) invert(.92) contrast(.9);}
+  .contact-dark .map-embed{border:1px solid var(--g-6); filter:grayscale(1) invert(.92) contrast(.9);}
   .contact-dark :focus-visible{outline-color:var(--g-0);}
 
   .contact-dark form.contact{gap:0;}
@@ -697,12 +699,12 @@ Text Domain: tradeup
   .contact-dark form.contact textarea{display:block; padding:8px 0 12px; border:0; border-radius:0; background:transparent; color:var(--g-0); font:400 clamp(18px,1.8vw,22px)/1.35 var(--font); letter-spacing:-.01em; text-transform:none; outline:0;}
   .contact-dark form.contact textarea{min-height:96px; resize:vertical;}
   .contact-dark form.contact ::placeholder{color:var(--g-6); opacity:1;}
-  .contact-dark form.contact input:-webkit-autofill{-webkit-text-fill-color:var(--g-0); box-shadow:0 0 0 100px var(--g-8) inset; caret-color:var(--g-0);}
+  .contact-dark form.contact input:-webkit-autofill{-webkit-text-fill-color:var(--g-0); box-shadow:0 0 0 100px var(--g-7) inset; caret-color:var(--g-0);}
   .contact-dark form.contact label:has([aria-invalid="true"]){border-color:#e8838f;}
   .contact-dark input[aria-invalid="true"],
   .contact-dark textarea[aria-invalid="true"]{border:0;}
   .contact-dark .field-error{font-family:var(--font); font-size:14px; letter-spacing:0; text-transform:none; color:#f0a0a8; padding-bottom:10px;}
-  .contact-dark .form-note{background:transparent; color:var(--g-0); border:0; border-top:1px solid var(--g-0); border-bottom:1px solid var(--g-7); border-radius:0; padding:16px 0; margin-bottom:8px;}
+  .contact-dark .form-note{background:transparent; color:var(--g-0); border:0; border-top:1px solid var(--g-0); border-bottom:1px solid var(--g-6); border-radius:0; padding:16px 0; margin-bottom:8px;}
   .contact-dark .form-note a{color:var(--g-0);}
   .contact-dark .form-note:focus{outline-color:var(--g-0);}
   .contact-dark form.contact .btn{justify-self:start; margin-top:32px; min-height:56px; padding:0 36px;}
@@ -756,9 +758,9 @@ Text Domain: tradeup
   }
   /* Datos de contacto: ícono y dato en la misma fila */
   .contact-dark .contact-list{gap:0;}
-  .contact-dark .contact-list > div{display:flex; align-items:stretch; gap:0; border:1px solid var(--g-7);}
+  .contact-dark .contact-list > div{display:flex; align-items:stretch; gap:0; border:1px solid var(--g-6);}
   .contact-dark .contact-list > div + div{margin-top:-1px;}
-  .contact-dark .contact-list dt{flex:none; display:flex; align-items:center; justify-content:center; width:3.5rem; border-right:1px solid var(--g-7);}
+  .contact-dark .contact-list dt{flex:none; display:flex; align-items:center; justify-content:center; width:3.5rem; border-right:1px solid var(--g-6);}
   .contact-dark .contact-list dt svg{width:24px; height:24px; margin:0; color:var(--g-0); stroke-width:1;}
   .contact-dark .contact-list dd{margin:0; padding:16px 20px; align-self:center;}
   /* Formulario alineado al bottom de la columna de datos/mapa */
@@ -778,7 +780,7 @@ Text Domain: tradeup
   }
 
   /* FAQ: título dentro de un rectángulo negro */
-  #faq .faq-title{background:var(--g-8); color:var(--g-0); padding:clamp(24px,3vw,40px); margin:0;}
+  #faq .faq-title{background:var(--g-7); color:var(--g-0); padding:clamp(24px,3vw,40px); margin:0;}
   @media (min-width:821px){
     #faq .faq-title{padding-top:clamp(24px,3vw,40px); padding-right:clamp(24px,3vw,40px);}
   }
@@ -843,16 +845,16 @@ Text Domain: tradeup
   /* ============ ZONA FRANCA (mismo lenguaje que el inicio) ============ */
   body.page-template-page-zona-franca .site-header{position:fixed; inset:0 0 auto 0; width:100%; transition:background-color .3s, border-color .3s, backdrop-filter .3s;}
   body.page-template-page-zona-franca .site-header:not(.is-scrolled){background:transparent; border-bottom-color:transparent; -webkit-backdrop-filter:none; backdrop-filter:none;}
-  body.page-template-page-zona-franca .site-header.is-scrolled{background:rgb(29 29 27 / .94); border-bottom-color:rgb(255 255 255 / .12); -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px);}
+  body.page-template-page-zona-franca .site-header.is-scrolled{background:rgb(49 49 48 / .94); border-bottom-color:rgb(255 255 255 / .12); -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px);}
   body.page-template-page-zona-franca .site-header .nav-main a,
   body.page-template-page-zona-franca .site-header .nav-main [aria-current="page"]{color:var(--g-0);}
   body.page-template-page-zona-franca .site-header .nav-main a:hover{background:rgb(255 255 255 / .16); color:var(--g-0); border-radius:0;}
-  body.page-template-page-zona-franca .site-header .menu-btn{color:var(--g-0); border-color:var(--g-0);}
+  body.page-template-page-zona-franca .site-header .menu-btn,body.page-template-page-zona-franca .site-header .lang-switch{color:var(--g-0); border-color:var(--g-0);}
   body.page-template-page-zona-franca .site-header :focus-visible{outline-color:var(--g-0);}
   .zf-hero{position:relative; isolation:isolate; overflow:hidden; background:var(--g-8); color:var(--g-0); min-height:clamp(480px,70svh,720px); display:flex; align-items:flex-end; padding-block:calc(var(--header-h) + 40px) clamp(32px,5vw,72px);}
   .zf-hero-bg{position:absolute; inset:0; z-index:-1;}
   .zf-hero-bg video{width:100%; height:100%; object-fit:cover; filter:grayscale(1);}
-  .zf-hero-bg::after{content:""; position:absolute; inset:0; background:linear-gradient(90deg, rgb(29 29 27 / .88) 0%, rgb(29 29 27 / .6) 55%, rgb(29 29 27 / .25) 100%), linear-gradient(0deg, rgb(29 29 27 / .75), transparent 95%);}
+  .zf-hero-bg::after{content:""; position:absolute; inset:0; background:linear-gradient(90deg, rgb(49 49 48 / .88) 0%, rgb(49 49 48 / .6) 55%, rgb(49 49 48 / .25) 100%), linear-gradient(0deg, rgb(49 49 48 / .75), transparent 95%);}
   @media (prefers-reduced-motion:reduce){ .zf-hero-bg video{display:none;} }
   .zf-hero-in{width:min(1760px,100% - 2 * var(--gutter));}
   .zf-hero-msg{display:flex; flex-direction:column; gap:24px;}
@@ -870,10 +872,10 @@ Text Domain: tradeup
   .zf-ben-card p{font-size:15px; color:var(--g-4);}
   .zf-ben-card p + p{margin-top:.8em;}
 
-  section.sec.zf-hist{position:relative; isolation:isolate; overflow:clip; background:var(--g-8); color:var(--g-0);}
+  section.sec.zf-hist{position:relative; isolation:isolate; overflow:clip; background:var(--g-7); color:var(--g-0);}
   .zf-hist-bg{position:absolute; inset:0; z-index:-1;}
   .zf-hist-bg video{position:sticky; top:0; display:block; width:100%; height:100svh; object-fit:cover; filter:grayscale(1);} /* el video queda fijo y la línea de tiempo sube por encima */
-  .zf-hist-bg::after{content:""; position:absolute; inset:0; background:rgb(29 29 27 / .72);}
+  .zf-hist-bg::after{content:""; position:absolute; inset:0; background:rgb(49 49 48 / .72);}
   @media (prefers-reduced-motion:reduce){ .zf-hist-bg video{display:none;} }
   .zf-hist-title{margin-bottom:clamp(40px,7vw,96px);}
   /* Línea central que se llena al scrollear; ítems alternados a izquierda y derecha */
@@ -957,11 +959,11 @@ Text Domain: tradeup
   /* ============ DOCUMENTACIÓN (mismo lenguaje que el inicio y Zona Franca) ============ */
   body.page-template-page-documentacion .site-header{position:fixed; inset:0 0 auto 0; width:100%; transition:background-color .3s, border-color .3s, backdrop-filter .3s;}
   body.page-template-page-documentacion .site-header:not(.is-scrolled){background:transparent; border-bottom-color:transparent; -webkit-backdrop-filter:none; backdrop-filter:none;}
-  body.page-template-page-documentacion .site-header.is-scrolled{background:rgb(29 29 27 / .94); border-bottom-color:rgb(255 255 255 / .12); -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px);}
+  body.page-template-page-documentacion .site-header.is-scrolled{background:rgb(49 49 48 / .94); border-bottom-color:rgb(255 255 255 / .12); -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px);}
   body.page-template-page-documentacion .site-header .nav-main a,
   body.page-template-page-documentacion .site-header .nav-main [aria-current="page"]{color:var(--g-0);}
   body.page-template-page-documentacion .site-header .nav-main a:hover{background:rgb(255 255 255 / .16); color:var(--g-0); border-radius:0;}
-  body.page-template-page-documentacion .site-header .menu-btn{color:var(--g-0); border-color:var(--g-0);}
+  body.page-template-page-documentacion .site-header .menu-btn,body.page-template-page-documentacion .site-header .lang-switch{color:var(--g-0); border-color:var(--g-0);}
   body.page-template-page-documentacion .site-header :focus-visible{outline-color:var(--g-0);}
   body.page-template-page-documentacion .crumbs{display:none;}
 
@@ -980,7 +982,7 @@ Text Domain: tradeup
   .doc-files .file em{flex:none; width:72px; height:72px; align-self:stretch; margin-left:auto; display:grid; place-items:center; background:var(--accent); color:var(--g-0); border-radius:0 0 clamp(20px,2.4vw,32px) 0;}
   .doc-files .file:hover em{background:var(--accent-hover); color:var(--g-0);}
 
-  section.sec.doc-ops{background:var(--g-8); color:var(--g-0);}
+  section.sec.doc-ops{background:var(--g-7); color:var(--g-0);}
 .doc-ops .doc-n{background:var(--accent);}
   .doc-ops .h2{margin-bottom:clamp(28px,4vw,48px); max-width:22ch;}
   .doc-ops-grid{display:grid; grid-template-columns:repeat(2,1fr); column-gap:clamp(32px,5vw,72px);}
@@ -1008,7 +1010,7 @@ Text Domain: tradeup
   .doc-top{display:flex; align-items:stretch; width:fit-content; max-width:100%; background:var(--g-8); border-radius:0 0 14px 0; margin-bottom:24px;}
   .doc-top .doc-n{background:var(--accent); margin:0; flex:none;}
   .doc-top .doc-tag{display:flex; align-items:center; margin:0; padding:0 24px 0 20px; color:var(--g-0);}
-  .doc-ops .doc-top{background:var(--g-7);}
+  .doc-ops .doc-top{background:var(--g-8);}
 
   /* Documentación: cards claras con borde superior (como las de "Cómo trabajamos"), sin fondo negro */
   .doc-reqs .zf-ben-card{background:var(--g-0); color:var(--g-8); border-top:1px solid var(--g-4); border-left:1px solid var(--g-4); border-radius:0;}
@@ -1044,7 +1046,7 @@ Text Domain: tradeup
   /* Documentación: el rótulo ("Para inscribirte" / "Para operar") va en una card con fondo y la esquina inferior derecha redondeada */
   .doc-top{background:var(--g-8); border:0; border-radius:0 0 14px 0;}
   .doc-top .doc-tag{color:var(--g-0);}
-  .doc-ops .doc-top{background:var(--g-7); border:0;}
+  .doc-ops .doc-top{background:var(--g-8); border:0;}
 
   /* Documentación: "Formularios a completar" debajo de "Documentación a presentar" (columna derecha); la columna izquierda queda fija mientras sube la derecha */
   @media (min-width:821px){ .doc-s1 .doc-head{position:sticky; top:calc(var(--header-h) + 24px);} }
@@ -1094,7 +1096,7 @@ Text Domain: tradeup
   /* Rótulos: el fondo se pinta de izquierda a derecha al entrar en pantalla (el texto pasa de oscuro a blanco en el mismo borde, como el título de las FAQ) */
   .doc-top.paint-lr.is-masked{background:linear-gradient(90deg, var(--g-8) calc(var(--rv,0) * 100%), transparent calc(var(--rv,0) * 100%));}
   .doc-top.paint-lr.is-masked .doc-tag{color:transparent; -webkit-text-fill-color:transparent; background:linear-gradient(90deg, var(--g-0) calc(var(--rv,0) * 100%), var(--g-8) calc(var(--rv,0) * 100%)); -webkit-background-clip:text; background-clip:text;}
-  .doc-ops .doc-top.paint-lr.is-masked{background:linear-gradient(90deg, var(--g-7) calc(var(--rv,0) * 100%), transparent calc(var(--rv,0) * 100%));}
+  .doc-ops .doc-top.paint-lr.is-masked{background:linear-gradient(90deg, var(--g-8) calc(var(--rv,0) * 100%), transparent calc(var(--rv,0) * 100%));}
   .doc-ops .doc-top.paint-lr.is-masked .doc-tag{background:var(--g-0); -webkit-background-clip:text; background-clip:text;}
 
   /* "Para operar": dos columnas como "Para inscribirte" (rótulo y título a la izquierda, lista a la derecha) */
@@ -1111,11 +1113,11 @@ Text Domain: tradeup
   /* ============ EN ACCIÓN (mismo lenguaje que el resto del sitio) ============ */
 body.page-template-page-en-accion .site-header{position:fixed; inset:0 0 auto 0; width:100%; transition:background-color .3s, border-color .3s, backdrop-filter .3s;}
   body.page-template-page-en-accion .site-header:not(.is-scrolled){background:transparent; border-bottom-color:transparent; -webkit-backdrop-filter:none; backdrop-filter:none;}
-  body.page-template-page-en-accion .site-header.is-scrolled{background:rgb(29 29 27 / .94); border-bottom-color:rgb(255 255 255 / .12); -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px);}
+  body.page-template-page-en-accion .site-header.is-scrolled{background:rgb(49 49 48 / .94); border-bottom-color:rgb(255 255 255 / .12); -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px);}
   body.page-template-page-en-accion .site-header .nav-main a,
   body.page-template-page-en-accion .site-header .nav-main [aria-current="page"]{color:var(--g-0);}
   body.page-template-page-en-accion .site-header .nav-main a:hover{background:rgb(255 255 255 / .16); color:var(--g-0); border-radius:0;}
-  body.page-template-page-en-accion .site-header .menu-btn{color:var(--g-0); border-color:var(--g-0);}
+  body.page-template-page-en-accion .site-header .menu-btn,body.page-template-page-en-accion .site-header .lang-switch{color:var(--g-0); border-color:var(--g-0);}
   body.page-template-page-en-accion .site-header :focus-visible{outline-color:var(--g-0);}
   body.page-template-page-en-accion .crumbs{display:none;}
   .acc-hero{min-height:clamp(380px,56svh,560px);}
@@ -1142,11 +1144,11 @@ body.page-template-page-en-accion .site-header{position:fixed; inset:0 0 auto 0;
   /* ============ DETALLE DE OPERACIÓN (mismo lenguaje que el resto del sitio) ============ */
   body.single-operacion .site-header{position:fixed; inset:0 0 auto 0; width:100%; transition:background-color .3s, border-color .3s, backdrop-filter .3s;}
   body.single-operacion .site-header:not(.is-scrolled){background:transparent; border-bottom-color:transparent; -webkit-backdrop-filter:none; backdrop-filter:none;}
-  body.single-operacion .site-header.is-scrolled{background:rgb(29 29 27 / .94); border-bottom-color:rgb(255 255 255 / .12); -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px);}
+  body.single-operacion .site-header.is-scrolled{background:rgb(49 49 48 / .94); border-bottom-color:rgb(255 255 255 / .12); -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px);}
   body.single-operacion .site-header .nav-main a,
   body.single-operacion .site-header .nav-main [aria-current="page"]{color:var(--g-0);}
   body.single-operacion .site-header .nav-main a:hover{background:rgb(255 255 255 / .16); color:var(--g-0); border-radius:0;}
-  body.single-operacion .site-header .menu-btn{color:var(--g-0); border-color:var(--g-0);}
+  body.single-operacion .site-header .menu-btn,body.single-operacion .site-header .lang-switch{color:var(--g-0); border-color:var(--g-0);}
   body.single-operacion .site-header :focus-visible{outline-color:var(--g-0);}
   body.single-operacion .crumbs{display:none;}
   .op-hero{min-height:clamp(420px,62svh,640px);}
@@ -1214,3 +1216,47 @@ body.page-template-page-en-accion .site-header{position:fixed; inset:0 0 auto 0;
     body[class] .cta-band{flex-direction:column; flex-wrap:wrap; justify-content:space-between; align-items:flex-start; gap:28px;}
     body[class] .cta-band .btn-row{margin-left:0; flex:none; align-items:flex-start;}
   }
+
+  /* Botón de idioma (ES/EN): esquinas rectas, en el header y en el menú móvil */
+  .lang-switch,.drawer .lang-switch{border-radius:0;}
+
+  /* Cómo trabajamos en tablet y mobile: sin sticky (las cards ya no se apilan al scrollear; van una debajo de otra) */
+  @media (max-width:1024px){
+    .svc-layout{--rh:auto;}
+    .svc-head-in{position:static; height:auto; margin-bottom:24px; padding-block:24px 0;}
+    .svc-inner{position:relative; top:auto; height:auto; min-height:0; margin-bottom:0;}
+    .svc-panel::after{display:none;}
+    .svc-panel{transform:none !important;}
+  }
+
+  /* Menú móvil: botón hamburguesa con esquinas rectas; panel en --g-7 con entrada animada */
+  .menu-btn{border-radius:0;}
+  dialog.drawer{background:var(--g-7); color:var(--g-0); border-left:1px solid var(--g-6);}
+  dialog.drawer::backdrop{background:rgba(20,20,20,.55);}
+  .drawer-head{border-bottom-color:var(--g-6);}
+  .drawer .menu-btn{color:var(--g-0); border-color:var(--g-0);}
+  .drawer nav a{border-bottom-color:var(--g-6); color:var(--g-0);}
+  .drawer nav a.sub{color:var(--g-4);}
+  .drawer nav a:hover{color:var(--g-3);}
+  .drawer :focus-visible{outline-color:var(--g-0);}
+  .drawer nav > *{opacity:0; transform:translateX(18px);}
+  @media (prefers-reduced-motion:no-preference){
+    dialog.drawer[open]{animation:drawerIn .42s cubic-bezier(.16,1,.3,1) both;}
+    dialog.drawer[open]::backdrop{animation:drawerFade .42s ease both;}
+    dialog.drawer.is-closing{animation:drawerOut .26s cubic-bezier(.4,0,1,1) both;}
+    dialog.drawer.is-closing::backdrop{animation:drawerFadeOut .26s ease both;}
+    dialog.drawer[open] nav > *{animation:drawerItem .5s cubic-bezier(.16,1,.3,1) both; animation-delay:calc(.12s + var(--i,0) * .05s);}
+    dialog.drawer[open] nav > :nth-child(1){--i:0;} dialog.drawer[open] nav > :nth-child(2){--i:1;} dialog.drawer[open] nav > :nth-child(3){--i:2;}
+    dialog.drawer[open] nav > :nth-child(4){--i:3;} dialog.drawer[open] nav > :nth-child(5){--i:4;} dialog.drawer[open] nav > :nth-child(6){--i:5;}
+  }
+  @media (prefers-reduced-motion:reduce){ .drawer nav > *{opacity:1; transform:none;} }
+  @keyframes drawerIn{from{transform:translateX(100%);} to{transform:none;}}
+  @keyframes drawerOut{from{transform:none;} to{transform:translateX(100%);}}
+  @keyframes drawerFade{from{opacity:0;} to{opacity:1;}}
+  @keyframes drawerFadeOut{from{opacity:1;} to{opacity:0;}}
+  @keyframes drawerItem{from{opacity:0; transform:translateX(18px);} to{opacity:1; transform:none;}}
+
+  /* Los <button> sin color propio toman el azul del sistema en algunos navegadores móviles (iOS/Android); el ícono (currentColor) se veía azul. Se fija el color. */
+  .menu-btn,.to-top{color:var(--g-8); -webkit-text-fill-color:currentColor; -webkit-tap-highlight-color:transparent;}
+  .to-top svg,.menu-btn svg{color:inherit; stroke:currentColor;}
+  .drawer .menu-btn{color:var(--g-0);}

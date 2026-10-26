@@ -9,9 +9,19 @@
 	/* ---------- Menú móvil (dialog modal: foco atrapado + Esc nativo) ---------- */
 	var drawer = $('#drawer'), openBtn = $('#menuOpen'), closeBtn = $('#menuClose');
 	if (drawer && openBtn && typeof drawer.showModal === 'function') {
+		/* Cierre animado: se aplica una clase de salida y recién después se cierra el diálogo */
+		var closing = false;
+		function closeDrawer() {
+			if (!drawer.open || closing) { return; }
+			if (reduce) { drawer.close(); return; }
+			closing = true;
+			drawer.classList.add('is-closing');
+			setTimeout(function () { drawer.classList.remove('is-closing'); drawer.close(); closing = false; }, 260);
+		}
 		openBtn.addEventListener('click', function () { drawer.showModal(); });
-		closeBtn.addEventListener('click', function () { drawer.close(); });
-		drawer.addEventListener('click', function (e) { if (e.target === drawer) { drawer.close(); } });
+		closeBtn.addEventListener('click', closeDrawer);
+		drawer.addEventListener('cancel', function (e) { e.preventDefault(); closeDrawer(); });
+		drawer.addEventListener('click', function (e) { if (e.target === drawer) { closeDrawer(); } });
 		$$('a', drawer).forEach(function (a) { a.addEventListener('click', function () { drawer.close(); }); });
 	}
 
@@ -169,7 +179,7 @@
 		$$('[data-count]', statsSec).forEach(function (el) {
 			var end = parseInt(el.getAttribute('data-count'), 10), t0 = null, dur = 1800;
 			if (isNaN(end)) { return; }
-			function fmt(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+			function fmt(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, (document.documentElement.lang || '').indexOf('en') === 0 ? ',' : '.'); }
 			el.textContent = '0';
 			(function step(t) {
 				if (t0 === null) { t0 = t; }
